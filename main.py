@@ -78,10 +78,14 @@ while True:
                                   input('Login do Cliente: '),
                                   input('Senha do Cliente: '),
                                   input('CPF do Cliente: '),
-                                  input('CNH do Cliente: '))
+                                  input('CNH do Cliente: '),
+                                  input('Número do Cartão do Cliente: '),
+                                  input('Telefone do Cliente: '),
+                                  input('Endereço do Cliente'))
                 #    Conecta e insere CLIENTE no banco
                 insere(f"INSERT INTO clientes VALUES (DEFAULT, '{cliente.nome}', '{cliente.login}', '{cliente.senha}', "
-                       f"'{cliente.cpf}', '{cliente.cnh}')")
+                       f"'{cliente.cpf}', '{cliente.cnh}', '{cliente.numero_cartao}', '{cliente.telefone}', "
+                       f"'{cliente.endereco}')")
             else:
                 print('\033[1;31mOpção inválida!!\033[m')
     # Cadastrar Veículo
