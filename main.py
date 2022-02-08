@@ -36,9 +36,15 @@ def consulta(sql):
     with conecta() as conexao:
         with conexao.cursor() as cursor:
             cursor.execute(sql)
-            resultado = cursor.fetchone()
-            return resultado
-
+            result = cursor.fetchone()
+            return result
+#   CONSULTA RESERVA
+def consulta_reserva(sql):
+    with conecta() as conexao:
+        with conexao.cursor() as cursor:
+            cursor.execute(sql)
+            result = cursor.fetchall()
+            return result
 
 while True:
     print('LoCar')
@@ -143,7 +149,7 @@ while True:
             if opcConsulta == 4:
                 break
 
-            #   Consulta USUÁRIO
+            #   CONSULTA USUÁRIO
             if opcConsulta == 1:
                 opcConsultaUsuario = int(input('1. Funcionário'
                                                '\n2. Cliente'
@@ -173,12 +179,18 @@ while True:
             #   CONSULTA DE VEÍCULO
             elif opcConsulta == 2:
                 placa = input('Qual o número da placa?: ')
-                resultado = consulta(F"SELECT * FROM veiculos where numero_placa = '{placa}'")
+                resultado = consulta(f"SELECT * FROM veiculos where numero_placa = '{placa}'")
                 for k, v in resultado.items():
                     print(f'{k}: {v}')
 
             #   CONSULTA RESERVA
             elif opcConsulta == 3:
-                pass
+                cpf = input('Digite o CPF do cliente para consultar as reservas cadastradas: ')
+                #   Armazena uma lista de dicionários de todos os ids correspondentes ao cpf digitado
+                ids_reservas = consulta_reserva(f"SELECT r.id_reserva FROM reservas AS r "
+                                                f"JOIN clientes AS c "
+                                                f"ON r.fk_id_cliente = c.id_cliente "
+                                                f"WHERE c.cpf = '{cpf}'")
+                print(ids_reservas)
             else:
                 print('\033[1;31mOpcão inválida!!!\033[m')
