@@ -186,11 +186,15 @@ while True:
             #   CONSULTA RESERVA
             elif opcConsulta == 3:
                 cpf = input('Digite o CPF do cliente para consultar as reservas cadastradas: ')
-                #   Armazena uma lista de dicionários de todos os ids correspondentes ao cpf digitado
+                #   ids_reservas armazena uma lista de dicionários de todos os ids correspondentes ao cpf digitado
                 ids_reservas = consulta_reserva(f"SELECT r.id_reserva FROM reservas AS r "
                                                 f"JOIN clientes AS c "
                                                 f"ON r.fk_id_cliente = c.id_cliente "
                                                 f"WHERE c.cpf = '{cpf}'")
-                print(ids_reservas)
+                for valor in ids_reservas:
+                    reserva = consulta(f"SELECT * FROM reservas WHERE id_reserva = '{valor['id_reserva']}' ")
+                    print('=*' * 20)
+                    for k, v in reserva.items():
+                        print(f'{k}: {v}')
             else:
                 print('\033[1;31mOpcão inválida!!!\033[m')
