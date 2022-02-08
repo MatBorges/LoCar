@@ -1,20 +1,20 @@
 class Reserva:
-    def __init__(self, cliente, veiculo, data_agendamento, data_inicio, periodo):
+    def __init__(self, cliente, veiculo, data_agendamento, data_inicio, periodo, valor_total):
         self.__cliente = cliente
         self.__veiculo = veiculo
         self.__data_agendamento = data_agendamento
         self.__data_inicio = data_inicio
         self.__periodo = periodo
-        self.__valor_total = None
+        self.__valor_total = valor_total
 
     #   getters
     @property
     def cliente(self):
-        return self.cliente
+        return self.__cliente
 
     @property
     def veiculo(self):
-        return self.veiculo
+        return self.__veiculo
 
     @property
     def data_agendamento(self):
