@@ -45,8 +45,31 @@ def consulta_reserva(sql):
             cursor.execute(sql)
             result = cursor.fetchall()
             return result
-
+validado = False
+#login
 while True:
+    opcLogin = int(input('\033[1;32mSISTEMA ADMINISTRATIVO LoCar\033[m'
+                         '\n1. Logar'
+                         '\n2. Sair'
+                         '\n:'))
+    if opcLogin == 2:
+        break
+    elif opcLogin == 1:
+        login = input('Login: ')
+        senha_usuario = consulta(f"SELECT senha FROM funcionarios WHERE login = '{login}'")
+        if senha_usuario == None:
+            print('\033[1;31mUsuário não existe\033[m')
+        else:
+            senha = input('Senha: ')
+            if senha_usuario['senha'] == senha:
+                validado = True
+                break
+            else:
+                print('\033[1;31mSENHA INVÁLIDA\033[m')
+    else:
+        print('\033[1;31mOPÇÃO INVÁLIDA\033[m')
+
+while validado:
     print('LoCar')
     opc = int(input('1. Cadastrar Usuário'
                     '\n2. Cadastrar Veículo'
