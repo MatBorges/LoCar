@@ -68,10 +68,11 @@ while True:
                 print('\033[1;31mSENHA INVÁLIDA\033[m')
     else:
         print('\033[1;31mOPÇÃO INVÁLIDA\033[m')
-
+#   Login efetuado
 while validado:
     print('LoCar')
-    opc = int(input('1. Cadastrar Usuário'
+    opc = int(input('\033[1;33mCADASTROS\033[m'
+                    '\n1. Cadastrar Usuário'
                     '\n2. Cadastrar Veículo'
                     '\n3. Cadastrar Reserva'
                     '\n4. Consultas'
@@ -82,9 +83,9 @@ while validado:
         break
     # Cadastrar Usuário
     elif opc == 1:
-        print('\033[1;33mCadastro de Usuário\033[m')
         while True:
-            opcUsuario = int(input('1. Funcionário'
+            opcUsuario = int(input('\033[1;33mCADASTRO DE USUÁRIO\033[m'
+                                   '\n1. Funcionário'
                                    '\n2. Cliente'
                                    '\n3. Voltar'
                                    '\n:'))
@@ -93,9 +94,7 @@ while validado:
 
             #   Cadastro de Funcionário
             elif opcUsuario == 1:
-                print('\033[1;33mCadastro de Funcionário\033[m')
-
-                #   Instancia da classe funcionário
+                print('\033[1;33mCADASTRO DE FUNCIONÁRIO\033[m')
                 funcionario = Funcionario(input('Nome do Funcionário: '),
                                           input('Login do Funcionário: '),
                                           input('Senha do Funcionário: '),
@@ -106,7 +105,7 @@ while validado:
                        f"'{funcionario.senha}', '{funcionario.matricula}')")
 
             elif opcUsuario == 2:
-                print('\033[1;33mCadastro de Cliente\033[m')
+                print('\033[1;33mCADASTRO DE CLIENTE\033[m')
                 cliente = Cliente(input('Nome do Cliente: '),
                                   input('Login do Cliente: '),
                                   input('Senha do Cliente: '),
@@ -114,18 +113,18 @@ while validado:
                                   input('CNH do Cliente: '),
                                   input('Número do Cartão do Cliente: '),
                                   input('Telefone do Cliente: '),
-                                  input('Endereço do Cliente'))
+                                  input('Endereço do Cliente: '))
 
                 #    Conecta e insere CLIENTE no banco
                 insere(f"INSERT INTO clientes VALUES (DEFAULT, '{cliente.nome}', '{cliente.login}', '{cliente.senha}', "
                        f"'{cliente.cpf}', '{cliente.cnh}', '{cliente.numero_cartao}', '{cliente.telefone}', "
                        f"'{cliente.endereco}')")
             else:
-                print('\033[1;31mOpção inválida!!\033[m')
+                print('\033[1;31mOPÇÃO INVÁLIDA\033[m')
 
     # Cadastrar Veículo
     elif opc == 2:
-        print('\033[1;33mCadastro de Veículo\033[m')
+        print('\033[1;33mCADASTRO DE VEÍCULO\033[m')
         veiculo = Veiculo(input('Qual o tipo do Veiculo?: '),
                           input('Qual a marca do Veículo?: '),
                           input('Qual o modelo do Veículo?: '),
@@ -141,7 +140,7 @@ while validado:
 
     # Cadastrar Reserva
     elif opc == 3:
-        print('\033[1;33mCadastro de Reserva\033[m')
+        print('\033[1;33mCADASTRO DE RESERVA\033[m')
         cpf_cliente = input('Qual o CPF do Cliente da reserva?: ')
         placa_veiculo = input('Qual a placa do Veículo?: ')
         cliente = consulta(f"SELECT id_cliente FROM clientes WHERE cpf = '{cpf_cliente}'")
@@ -162,9 +161,9 @@ while validado:
 
     # Consultas
     elif opc == 4:
-        print('\033[1;33mConsultas\033[m')
         while True:
-            opcConsulta = int(input('1. Consultar Usuário'
+            opcConsulta = int(input('\033[1;33mCONSULTAS\033[m'
+                                    '\n1. Consultar Usuário'
                                     '\n2. Consultar Veículo'
                                     '\n3. Consultar Reserva'
                                     '\n4. Voltar'
@@ -174,40 +173,51 @@ while validado:
 
             #   CONSULTA USUÁRIO
             if opcConsulta == 1:
-                opcConsultaUsuario = int(input('1. Funcionário'
+                opcConsultaUsuario = int(input('\033[1;33mCONSULTA DE USUÁRIO\033[m'
+                                               '\n1. Funcionário'
                                                '\n2. Cliente'
                                                '\n3. Voltar'
                                                '\n:'))
 
                 #   CONSULTA FUNCIONÁRIO
                 if opcConsultaUsuario == 1:
+                    print('\033[1;33mCONSULTA DE FUNCIONÁRIO\033[m')
                     matricula = input('Qual a Matricula do Funcionário?: ')
                     resultado = consulta(f"SELECT * FROM funcionarios WHERE matricula = '{matricula}'")
+                    print('*=' * 20)
                     for k, v in resultado.items():
                         print(f'{k}: {v}')
+                    print('*=' * 20)
 
                 #   CONSULTA CLIENTE
                 elif opcConsultaUsuario == 2:
+                    print('\033[1;33mCONSULTA DE CLIENTE\033[m')
                     cpf = input('Qual o CPF do Cliente?: ')
                     resultado = consulta(f"SELECT * FROM clientes WHERE cpf = '{cpf}'")
+                    print('*=' * 20)
                     for k, v in resultado.items():
                         print(f'{k}: {v}')
+                    print('*=' * 20)
 
                 #   SAIR DA CONSULTA DO USUÁRIO
                 elif opcConsultaUsuario == 3:
                     break
                 else:
-                    print('\033[1;31mOpção inválida!!!\033[m')
+                    print('\033[1;31mOPÇÃO INVÁLIDA!!!\033[m')
 
             #   CONSULTA DE VEÍCULO
             elif opcConsulta == 2:
+                print('\033[1;33mCONSULTA DE VEÍCULO\033[m')
                 placa = input('Qual o número da placa?: ')
                 resultado = consulta(f"SELECT * FROM veiculos where numero_placa = '{placa}'")
+                print('*=' * 20)
                 for k, v in resultado.items():
                     print(f'{k}: {v}')
+                print('*=' * 20)
 
             #   CONSULTA RESERVA
             elif opcConsulta == 3:
+                print('\033[1;33mCONSULTA DE RESERVA\033[m')
                 cpf = input('Digite o CPF do cliente para consultar as reservas cadastradas: ')
                 #   ids_reservas armazena uma lista de dicionários de todos os ids correspondentes ao cpf digitado
                 ids_reservas = consulta_reserva(f"SELECT r.id_reserva FROM reservas AS r "
@@ -220,4 +230,4 @@ while validado:
                     for k, v in reserva.items():
                         print(f'{k}: {v}')
             else:
-                print('\033[1;31mOpcão inválida!!!\033[m')
+                print('\033[1;31mOPÇÃO INVÁLIDA\033[m')
