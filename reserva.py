@@ -2,7 +2,7 @@ class Reserva:
     def __init__(self, cliente, veiculo, data_agendamento, data_inicio, periodo):
         self.__cliente = cliente
         self.__veiculo = veiculo
-        self.__data_agendamento = f'{data_agendamento.day}/{data_agendamento.month}/{data_agendamento.year}'
+        self.__data_agendamento = data_agendamento
         self.__data_inicio = data_inicio
         self.__periodo = periodo
         self.__valor_total = None

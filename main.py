@@ -106,7 +106,7 @@ while True:
     elif opc == 3:
         print('\033[1;33mCadastro de Reserva\033[m')
         cpf_cliente = input('Qual o CPF do Cliente da reserva?: ')
-        placa_veiculo = input('Qual o Veículo?: ')
+        placa_veiculo = input('Qual a placa do Veículo?: ')
         cliente = consulta(f"SELECT id_cliente FROM clientes WHERE cpf = '{cpf_cliente}'")
         veiculo = consulta(f"SELECT id_veiculo FROM veiculos WHERE numero_placa = '{placa_veiculo}'")
         #   Fazer a consulta do Cliente e Veículo
