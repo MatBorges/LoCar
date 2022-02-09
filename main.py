@@ -5,6 +5,12 @@ from veiculo import Veiculo
 from datetime import date
 import pymysql.cursors
 from contextlib import contextmanager
+from PyQt5 import uic, QtWidgets
+
+app = QtWidgets.QApplication([])
+telaLogin = uic.loadUi('telaLogin.ui')
+telaPrincipal = uic.loadUi('telaPrincipal.ui')
+telaLogin.pushButton.clicked.connect(telaPrincipal)
 
 
 @contextmanager
@@ -45,31 +51,20 @@ def consulta_reserva(sql):
             cursor.execute(sql)
             result = cursor.fetchall()
             return result
-validado = False
-#login
-while True:
-    opcLogin = int(input('\033[1;32mSISTEMA ADMINISTRATIVO LoCar\033[m'
-                         '\n1. Logar'
-                         '\n2. Sair'
-                         '\n:'))
-    if opcLogin == 2:
-        break
-    elif opcLogin == 1:
-        login = input('Login: ')
-        senha_usuario = consulta(f"SELECT senha FROM funcionarios WHERE login = '{login}'")
-        if senha_usuario == None:
-            print('\033[1;31mUsuário não existe\033[m')
-        else:
-            senha = input('Senha: ')
-            if senha_usuario['senha'] == senha:
-                validado = True
-                break
-            else:
-                print('\033[1;31mSENHA INVÁLIDA\033[m')
+def login():
+    telaLogin.alertaLogin.setText('')
+    usuario = telaLogin.textBoxLogin.text()
+    senha = telaLogin.textBoxSenha.text()
+    senha_banco = consulta(f"SELECT senha FROM funcionarios WHERE login = '{usuario}'")
+    if senha_banco == None:
+        telaLogin.alertaLogin.setText('Usuário não existe')
     else:
-        print('\033[1;31mOPÇÃO INVÁLIDA\033[m')
-#   Login efetuado
-while validado:
+        if senha_banco['senha'] == senha:
+            telaLogin.close()
+            telaPrincipal.show()
+        else:
+            telaLogin.alertaLogin.setText('SENHA INVÁLIDA')
+while True:
     print('LoCar')
     opc = int(input('\033[1;33mCADASTROS\033[m'
                     '\n1. Cadastrar Usuário'
