@@ -7,11 +7,6 @@ import pymysql.cursors
 from contextlib import contextmanager
 from PyQt5 import uic, QtWidgets
 
-app = QtWidgets.QApplication([])
-telaLogin = uic.loadUi('telaLogin.ui')
-telaPrincipal = uic.loadUi('telaPrincipal.ui')
-telaLogin.pushButton.clicked.connect(telaPrincipal)
-
 
 @contextmanager
 def conecta():
@@ -44,6 +39,8 @@ def consulta(sql):
             cursor.execute(sql)
             result = cursor.fetchone()
             return result
+
+
 #   CONSULTA RESERVA
 def consulta_reserva(sql):
     with conecta() as conexao:
@@ -51,6 +48,8 @@ def consulta_reserva(sql):
             cursor.execute(sql)
             result = cursor.fetchall()
             return result
+
+
 def login():
     telaLogin.alertaLogin.setText('')
     usuario = telaLogin.textBoxLogin.text()
@@ -64,7 +63,18 @@ def login():
             telaPrincipal.show()
         else:
             telaLogin.alertaLogin.setText('SENHA INVÁLIDA')
-while True:
+
+
+app = QtWidgets.QApplication([])
+telaLogin = uic.loadUi("telaLogin.ui")
+telaPrincipal = uic.loadUi('telaPrincipal.ui')
+
+telaLogin.botaoLogin.clicked.connect(login)
+
+telaLogin.show()
+app.exec()
+
+'''while True:
     print('LoCar')
     opc = int(input('\033[1;33mCADASTROS\033[m'
                     '\n1. Cadastrar Usuário'
@@ -225,4 +235,4 @@ while True:
                     for k, v in reserva.items():
                         print(f'{k}: {v}')
             else:
-                print('\033[1;31mOPÇÃO INVÁLIDA\033[m')
+                print('\033[1;31mOPÇÃO INVÁLIDA\033[m')'''
