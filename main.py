@@ -1,4 +1,4 @@
-#from funcionario import Funcionario
+from funcionario import Funcionario
 #from cliente import Cliente
 #from reserva import Reserva
 #from veiculo import Veiculo
@@ -6,6 +6,10 @@
 import pymysql.cursors
 from contextlib import contextmanager
 from PyQt5 import uic, QtWidgets
+
+
+def teste():
+    print('TESTANDO!!!!!!!!!!!!!')
 
 
 @contextmanager
@@ -93,7 +97,7 @@ def menuInicial(usuario):
 
 def menuCadastros():
     telaCadastros.show()
-    #telaCadastros.btCadUsuario.clicked.connect()
+    telaCadastros.btCadUsuario.clicked.connect(cadUsuario)
     #telaCadastros.btCadVeiculo.clicked.connect()
     #telaCadastros.btCadReserva.clicked.connect()
     telaCadastros.btVoltar.clicked.connect(voltarCad)
@@ -101,10 +105,34 @@ def menuCadastros():
 
 def menuConsultas():
     telaConsultas.show()
-    #telaConsultas.btConUsuario.clicked.connect()
+    telaConsultas.btConUsuario.clicked.connect(conUsuario)
     #telaConsultas.btConVeiculo.clicked.connect()
     #telaConsultas.btConReserva.clicked.connect()
     telaConsultas.btVoltar.clicked.connect(voltarCon)
+
+
+def cadUsuario():
+    telaCadUsuario.show()
+    telaCadUsuario.btCadFuncionario.clicked.connect(telaCadUsuario.frameCadFuncionario.show)
+    telaCadUsuario.btCadastrar.clicked.connect(cadFuncionario)
+    telaCadUsuario.btCadCliente.clicked.connect(telaCadUsuario.frameCadFuncionario.close)
+    telaCadUsuario.btVoltar.clicked.connect(telaCadUsuario.close)
+
+
+def cadFuncionario():
+    funcionario = Funcionario(telaCadUsuario.tbNomeFuncionario.text(),
+                              telaCadUsuario.tbLoginFuncionario.text(),
+                              telaCadUsuario.tbSenhaFuncionario.text(),
+                              telaCadUsuario.tbMatriculaFuncionario.text())
+
+    #   Conecta e insere FUNCIONARIO no banco
+    insere(f"INSERT INTO funcionarios VALUES (DEFAULT, '{funcionario.nome}', '{funcionario.login}', "
+           f"'{funcionario.senha}', '{funcionario.matricula}')")
+
+
+def conUsuario():
+    telaConUsuario.show()
+    telaCadUsuario.btVoltar.clicked.connect(telaConUsuario.close)
 
 
 app = QtWidgets.QApplication([])
@@ -112,6 +140,8 @@ telaLogin = uic.loadUi("telaLogin.ui")
 telaInicial = uic.loadUi("telaInicial.ui")
 telaCadastros = uic.loadUi("telaCadastros.ui")
 telaConsultas = uic.loadUi("telaConsultas.ui")
+telaCadUsuario = uic.loadUi("telaCadastroUsuario.ui")
+telaConUsuario = uic.loadUi("telaConsultaUsuario.ui")
 
 
 telaLogin.botaoLogin.clicked.connect(login)

@@ -70,7 +70,7 @@ background-color: qlineargradient(spread:reflect, x1:0, y1:0, x2:1, y2:0.943182,
      <pixmap>../../AppData/PycharmProjects/LoCar/imagens/808107201585380077-64.png</pixmap>
     </property>
    </widget>
-   <widget class="QPushButton" name="botaoVoltar">
+   <widget class="QPushButton" name="btVoltar">
     <property name="geometry">
      <rect>
       <x>280</x>
@@ -286,7 +286,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
    </widget>
    <zorder>logoLoCarPequeno</zorder>
    <zorder>botaoCadastros</zorder>
-   <zorder>botaoVoltar</zorder>
+   <zorder>btVoltar</zorder>
    <zorder>botaoCadastros_2</zorder>
    <zorder>frameConCliente</zorder>
    <zorder>frameConFuncionario</zorder>

@@ -104,7 +104,7 @@ background-color: qlineargradient(spread:reflect, x1:0, y1:0, x2:1, y2:0.943182,
      <string>Cadastrar Cliente</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="botaoVoltar">
+   <widget class="QPushButton" name="btVoltar">
     <property name="geometry">
      <rect>
       <x>280</x>
@@ -164,7 +164,7 @@ border-color: black;</string>
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QLineEdit" name="textBoxNome_2">
+    <widget class="QLineEdit" name="tbNomeFuncionario">
      <property name="geometry">
       <rect>
        <x>60</x>
@@ -181,7 +181,7 @@ border-color: black;</string>
       <string>Nome</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="textBoxLogin_2">
+    <widget class="QLineEdit" name="tbLoginFuncionario">
      <property name="geometry">
       <rect>
        <x>60</x>
@@ -197,7 +197,7 @@ border-color: black;</string>
       <string>Login</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="textBoxSenha_2">
+    <widget class="QLineEdit" name="tbSenhaFuncionario">
      <property name="geometry">
       <rect>
        <x>60</x>
@@ -216,7 +216,7 @@ border-color: black;</string>
       <string>Senha</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="textBoxMatricula">
+    <widget class="QLineEdit" name="tbMatriculaFuncionario">
      <property name="geometry">
       <rect>
        <x>60</x>
@@ -244,6 +244,11 @@ border-color: black;</string>
        <height>41</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+      </font>
+     </property>
      <property name="styleSheet">
       <string notr="true">QPushButton{
 background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(255, 255, 255, 255), stop:1 rgba(165, 165, 165, 255));
@@ -261,7 +266,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
 </string>
      </property>
      <property name="text">
-      <string>PushButton</string>
+      <string>Cadastrar</string>
      </property>
     </widget>
    </widget>
@@ -367,6 +372,11 @@ border-color: black;</string>
        <height>41</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <pointsize>14</pointsize>
+      </font>
+     </property>
      <property name="styleSheet">
       <string notr="true">QPushButton{
 background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(255, 255, 255, 255), stop:1 rgba(165, 165, 165, 255));
@@ -467,9 +477,9 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
    <zorder>logoLoCarPequeno</zorder>
    <zorder>btCadFuncionario</zorder>
    <zorder>btCadCliente</zorder>
-   <zorder>botaoVoltar</zorder>
-   <zorder>frameCadFuncionario</zorder>
+   <zorder>btVoltar</zorder>
    <zorder>frameCadCliente</zorder>
+   <zorder>frameCadFuncionario</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
