@@ -171,6 +171,7 @@ def cadCliente():
 
 
 def chamaCadVeiculo():
+    #   ABRE A JANELA DO CADASTRO DE VEÍCULO
     telaCadVeiculo.show()
     telaCadVeiculo.btVoltar.clicked.connect(telaCadVeiculo.close)
     telaCadVeiculo.btCadastrarCliente.clicked.connect(cadVeiculo)
@@ -180,6 +181,7 @@ def chamaCadVeiculo():
 
 
 def cadVeiculo():
+    #   LÊ OS DADOS
     veiculo = Veiculo(telaCadVeiculo.cbTipoVeiculo.currentText(),
                       telaCadVeiculo.cbMarcaVeiculo.currentText(),
                       telaCadVeiculo.cbCorVeiculo.currentText(),
@@ -192,10 +194,17 @@ def cadVeiculo():
     marca = consulta(f"SELECT id_marca FROM marcas WHERE marca = '{veiculo.marca}'")
     cor = consulta(f"SELECT id_cor FROM cores WHERE cor = '{veiculo.cor}'")
 
-    #   EXECUTANDO NA CHAMADA
+    #   INSERE OS DADOS LIDOS NO BANCO
     insere(
         f"INSERT INTO veiculos VALUES (DEFAULT, '{tipo['id_tipo']}', '{marca['id_marca']}', '{cor['id_cor']}', '{veiculo.modelo}', "
         f" '{veiculo.n_chassi}', '{veiculo.ano}', '{veiculo.placa}', '{veiculo.valor_diaria}')")
+
+    #   LIMPA AS TEXTBOX
+    telaCadVeiculo.tbModeloVeiculo.clear()
+    telaCadVeiculo.tbAnoVeiculo.clear()
+    telaCadVeiculo.tbNChassiVeiculo.clear()
+    telaCadVeiculo.tbNPlacaVeiculo.clear()
+    telaCadVeiculo.tbVDiariaVeiculo.clear()
 
 
 def conUsuario():
