@@ -1,7 +1,7 @@
 from funcionario import Funcionario
 from cliente import Cliente
 #from reserva import Reserva
-#from veiculo import Veiculo
+from veiculo import Veiculo
 #from datetime import date
 import pymysql.cursors
 from contextlib import contextmanager
@@ -37,6 +37,14 @@ def insere(sql):
             print('\033[1;32mInserido com SUCESSO!!!\033[m')
 
 
+def buscaCombobox(sql, chave):
+    busca = consultaVarios(sql)
+    cb = []
+    for v in busca:
+        cb.append(v[chave])
+    return cb
+
+
 def consulta(sql):
     with conecta() as conexao:
         with conexao.cursor() as cursor:
@@ -46,7 +54,7 @@ def consulta(sql):
 
 
 #   CONSULTA RESERVA
-def consulta_reserva(sql):
+def consultaVarios(sql):
     with conecta() as conexao:
         with conexao.cursor() as cursor:
             cursor.execute(sql)
@@ -98,7 +106,7 @@ def menuInicial(usuario):
 def menuCadastros():
     telaCadastros.show()
     telaCadastros.btCadUsuario.clicked.connect(cadUsuario)
-    #telaCadastros.btCadVeiculo.clicked.connect()
+    telaCadastros.btCadVeiculo.clicked.connect(cadVeiculo)
     #telaCadastros.btCadReserva.clicked.connect()
     telaCadastros.btVoltar.clicked.connect(voltarCad)
 
@@ -115,9 +123,10 @@ def cadUsuario():
     telaCadUsuario.show()
     telaCadUsuario.btCadFuncionario.clicked.connect(telaCadUsuario.frameCadFuncionario.show)
     telaCadUsuario.btCadastrarFuncionario.clicked.connect(cadFuncionario)
+    telaCadUsuario.btCadastrarCliente.clicked.connect(cadCliente)
     telaCadUsuario.btCadCliente.clicked.connect(telaCadUsuario.frameCadFuncionario.close)
     telaCadUsuario.btVoltar.clicked.connect(telaCadUsuario.close)
-    telaCadUsuario.btCadastrarCliente.clicked.connect(cadCliente)
+
 
 
 def cadFuncionario():
@@ -161,9 +170,33 @@ def cadCliente():
     telaCadUsuario.tbEnderecoCliente.clear()
 
 
+def cadVeiculo():
+    telaCadVeiculo.show()
+    telaCadVeiculo.btVoltar.clicked.connect(telaCadVeiculo.close)
+    veiculo = Veiculo(telaCadVeiculo.tbTipoVeiculo.text(),
+                      telaCadVeiculo.tbMarcaVeiculo.text(),
+                      telaCadVeiculo.tbCorVeiculo.text(),
+                      telaCadVeiculo.tbModeloVeiculo.text(),
+                      telaCadVeiculo.tbAnoVeiculo.text(),
+                      telaCadVeiculo.tbNChassiVeiculo.text(),
+                      telaCadVeiculo.tbNPlacaVeiculo.text(),
+                      telaCadVeiculo.tbVDiariaVeiculo.text())
+    tipo = consulta(f"SELECT id_tipo FROM tipos WHERE tipo = '{veiculo.tipo}'")
+    marca = consulta(f"SELECT id_marca FROM marcas WHERE marca = '{veiculo.marca}'")
+    cor = consulta(f"SELECT id_cor FROM cores WHERE cor = '{veiculo.cor}'")
+
+    print(tipo)
+    print(marca)
+    print(cor)
+
+    #   EXECUTANDO NA CHAMADA
+    insere(f"INSERT INTO veiculos VALUES (DEFAULT, '{veiculo.modelo}', '{tipo}', '{marca}', '{cor}', "
+           f" '{veiculo.ano}', '{veiculo.n_chassi}', '{veiculo.placa}', '{veiculo.valor_diaria}')")
+
+
 def conUsuario():
     telaConUsuario.show()
-    telaCadUsuario.btVoltar.clicked.connect(telaConUsuario.close)
+    telaConUsuario.btVoltar.clicked.connect(telaConUsuario.close)
 
 
 app = QtWidgets.QApplication([])
@@ -173,6 +206,7 @@ telaCadastros = uic.loadUi("telaCadastros.ui")
 telaConsultas = uic.loadUi("telaConsultas.ui")
 telaCadUsuario = uic.loadUi("telaCadastroUsuario.ui")
 telaConUsuario = uic.loadUi("telaConsultaUsuario.ui")
+telaCadVeiculo = uic.loadUi("telaCadastroVeiculo.ui")
 
 
 telaLogin.botaoLogin.clicked.connect(login)

@@ -19,20 +19,20 @@ class Veiculo:
         return self.__marca
 
     @property
-    def modelo(self):
-        return self.__modelo
-
-    @property
     def cor(self):
         return self.__cor
 
     @property
-    def n_chassi(self):
-        return self.__n_chassi
+    def modelo(self):
+        return self.__modelo
 
     @property
     def ano(self):
         return self.__ano
+
+    @property
+    def n_chassi(self):
+        return self.__n_chassi
 
     @property
     def placa(self):
