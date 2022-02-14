@@ -1,8 +1,8 @@
-from funcionario import Funcionario
-from cliente import Cliente
-from reserva import Reserva
-from veiculo import Veiculo
-from datetime import date
+#from funcionario import Funcionario
+#from cliente import Cliente
+#from reserva import Reserva
+#from veiculo import Veiculo
+#from datetime import date
 import pymysql.cursors
 from contextlib import contextmanager
 from PyQt5 import uic, QtWidgets
@@ -60,14 +60,18 @@ def login():
     else:
         if senha_banco['senha'] == senha:
             telaLogin.close()
-            telaPrincipal.show()
+            menuInicial(usuario)
         else:
             telaLogin.alertaLogin.setText('SENHA INVÁLIDA')
+def menuInicial(usuario):
+    nomeUsuario = consulta(f"SELECT nome FROM funcionarios WHERE login = '{usuario}'")
+    telaInicial.show()
+    telaInicial.boasVindas.setText(f'Bem-vindo {nomeUsuario["nome"]}')
 
 
 app = QtWidgets.QApplication([])
 telaLogin = uic.loadUi("telaLogin.ui")
-telaPrincipal = uic.loadUi('telaPrincipal.ui')
+telaInicial = uic.loadUi("telaInicial.ui")
 
 telaLogin.botaoLogin.clicked.connect(login)
 
