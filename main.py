@@ -1,5 +1,5 @@
 from funcionario import Funcionario
-#from cliente import Cliente
+from cliente import Cliente
 #from reserva import Reserva
 #from veiculo import Veiculo
 #from datetime import date
@@ -55,16 +55,16 @@ def consulta_reserva(sql):
 
 
 def logout():
-    telaLogin.textBoxLogin.clear()
-    telaLogin.textBoxSenha.clear()
+    telaLogin.tbLogin.clear()
+    telaLogin.tbSenha.clear()
     telaInicial.close()
     telaLogin.show()
 
 
 def login():
     telaLogin.alertaLogin.setText('')
-    usuario = telaLogin.textBoxLogin.text()
-    senha = telaLogin.textBoxSenha.text()
+    usuario = telaLogin.tbLogin.text()
+    senha = telaLogin.tbSenha.text()
     senha_banco = consulta(f"SELECT senha FROM funcionarios WHERE login = '{usuario}'")
     if senha_banco == None:
         telaLogin.alertaLogin.setText('USUÁRIO INVÁLIDO')
@@ -114,9 +114,10 @@ def menuConsultas():
 def cadUsuario():
     telaCadUsuario.show()
     telaCadUsuario.btCadFuncionario.clicked.connect(telaCadUsuario.frameCadFuncionario.show)
-    telaCadUsuario.btCadastrar.clicked.connect(cadFuncionario)
+    telaCadUsuario.btCadastrarFuncionario.clicked.connect(cadFuncionario)
     telaCadUsuario.btCadCliente.clicked.connect(telaCadUsuario.frameCadFuncionario.close)
     telaCadUsuario.btVoltar.clicked.connect(telaCadUsuario.close)
+    telaCadUsuario.btCadastrarCliente.clicked.connect(cadCliente)
 
 
 def cadFuncionario():
@@ -128,6 +129,36 @@ def cadFuncionario():
     #   Conecta e insere FUNCIONARIO no banco
     insere(f"INSERT INTO funcionarios VALUES (DEFAULT, '{funcionario.nome}', '{funcionario.login}', "
            f"'{funcionario.senha}', '{funcionario.matricula}')")
+
+    telaCadUsuario.tbNomeFuncionario.clear()
+    telaCadUsuario.tbLoginFuncionario.clear()
+    telaCadUsuario.tbSenhaFuncionario.clear()
+    telaCadUsuario.tbMatriculaFuncionario.clear()
+
+
+def cadCliente():
+    cliente = Cliente(telaCadUsuario.tbNomeCliente.text(),
+                      telaCadUsuario.tbLoginCliente.text(),
+                      telaCadUsuario.tbSenhaCliente.text(),
+                      telaCadUsuario.tbCPFCliente.text(),
+                      telaCadUsuario.tbCNHCliente.text(),
+                      telaCadUsuario.tbNCartaoCliente.text(),
+                      telaCadUsuario.tbTelefoneCliente.text(),
+                      telaCadUsuario.tbEnderecoCliente.text())
+
+    #    Conecta e insere CLIENTE no banco
+    insere(f"INSERT INTO clientes VALUES (DEFAULT, '{cliente.nome}', '{cliente.login}', '{cliente.senha}', "
+           f"'{cliente.cpf}', '{cliente.cnh}', '{cliente.numero_cartao}', '{cliente.telefone}', "
+           f"'{cliente.endereco}')")
+
+    telaCadUsuario.tbNomeCliente.clear()
+    telaCadUsuario.tbLoginCliente.clear()
+    telaCadUsuario.tbSenhaCliente.clear()
+    telaCadUsuario.tbCPFCliente.clear()
+    telaCadUsuario.tbCNHCliente.clear()
+    telaCadUsuario.tbNCartaoCliente.clear()
+    telaCadUsuario.tbTelefoneCliente.clear()
+    telaCadUsuario.tbEnderecoCliente.clear()
 
 
 def conUsuario():

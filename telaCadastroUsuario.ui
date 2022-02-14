@@ -235,7 +235,7 @@ border-color: black;</string>
       <string>Matricula</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="btCadastrar">
+    <widget class="QPushButton" name="btCadastrarFuncionario">
      <property name="geometry">
       <rect>
        <x>250</x>
@@ -292,7 +292,7 @@ border-color: black;</string>
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QLineEdit" name="textBoxNome">
+    <widget class="QLineEdit" name="tbNomeCliente">
      <property name="geometry">
       <rect>
        <x>60</x>
@@ -309,11 +309,11 @@ border-color: black;</string>
       <string>Nome</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="textBoxLogin">
+    <widget class="QLineEdit" name="tbLoginCliente">
      <property name="geometry">
       <rect>
        <x>60</x>
-       <y>70</y>
+       <y>100</y>
        <width>113</width>
        <height>20</height>
       </rect>
@@ -325,11 +325,11 @@ border-color: black;</string>
       <string>Login</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="textBoxSenha">
+    <widget class="QLineEdit" name="tbSenhaCliente">
      <property name="geometry">
       <rect>
        <x>60</x>
-       <y>100</y>
+       <y>130</y>
        <width>113</width>
        <height>20</height>
       </rect>
@@ -344,11 +344,11 @@ border-color: black;</string>
       <string>Senha</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="textBoxCPF">
+    <widget class="QLineEdit" name="tbCPFCliente">
      <property name="geometry">
       <rect>
        <x>60</x>
-       <y>130</y>
+       <y>160</y>
        <width>113</width>
        <height>20</height>
       </rect>
@@ -363,7 +363,7 @@ border-color: black;</string>
       <string>CPF</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="btCadastrar_2">
+    <widget class="QPushButton" name="btCadastrarCliente">
      <property name="geometry">
       <rect>
        <x>250</x>
@@ -397,26 +397,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
       <string>Cadastrar</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="textBoxCNH">
-     <property name="geometry">
-      <rect>
-       <x>60</x>
-       <y>160</y>
-       <width>113</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: rgb(255, 255, 255);</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="placeholderText">
-      <string>CNH</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="textBoxNCartao">
+    <widget class="QLineEdit" name="tbCNHCliente">
      <property name="geometry">
       <rect>
        <x>60</x>
@@ -432,15 +413,34 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
       <string/>
      </property>
      <property name="placeholderText">
-      <string>nº Cartão</string>
+      <string>CNH</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="textBoxtelefone">
+    <widget class="QLineEdit" name="tbNCartaoCliente">
      <property name="geometry">
       <rect>
        <x>60</x>
        <y>220</y>
-       <width>120</width>
+       <width>113</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 255, 255);</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="placeholderText">
+      <string>nº Cartão</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="tbTelefoneCliente">
+     <property name="geometry">
+      <rect>
+       <x>60</x>
+       <y>250</y>
+       <width>111</width>
        <height>20</height>
       </rect>
      </property>
@@ -454,12 +454,12 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
       <string>Telefone</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="textBoxEndereco">
+    <widget class="QLineEdit" name="tbEnderecoCliente">
      <property name="geometry">
       <rect>
        <x>60</x>
-       <y>250</y>
-       <width>120</width>
+       <y>70</y>
+       <width>291</width>
        <height>20</height>
       </rect>
      </property>

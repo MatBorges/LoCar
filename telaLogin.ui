@@ -55,7 +55,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
      <string>Login</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="textBoxLogin">
+   <widget class="QLineEdit" name="tbLogin">
     <property name="geometry">
      <rect>
       <x>230</x>
@@ -96,7 +96,7 @@ border-width: 1px;
      <string>Usuario</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="textBoxSenha">
+   <widget class="QLineEdit" name="tbSenha">
     <property name="geometry">
      <rect>
       <x>230</x>
@@ -183,8 +183,8 @@ border-width: 1px;
    </widget>
    <zorder>logoLoCar</zorder>
    <zorder>botaoLogin</zorder>
-   <zorder>textBoxLogin</zorder>
-   <zorder>textBoxSenha</zorder>
+   <zorder>tbLogin</zorder>
+   <zorder>tbSenha</zorder>
    <zorder>alertaLogin</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
