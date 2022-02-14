@@ -1,15 +1,15 @@
 from funcionario import Funcionario
 from cliente import Cliente
-#from reserva import Reserva
+#   from reserva import Reserva
 from veiculo import Veiculo
-#from datetime import date
+#   from datetime import date
 import pymysql.cursors
 from contextlib import contextmanager
 from PyQt5 import uic, QtWidgets
 
 
-def teste():
-    print('TESTANDO!!!!!!!!!!!!!')
+def teste(teste):
+    print(f'\033[1;32mTESTANDO: {teste}\033[m')
 
 
 @contextmanager
@@ -107,7 +107,7 @@ def menuCadastros():
     telaCadastros.show()
     telaCadastros.btCadUsuario.clicked.connect(cadUsuario)
     telaCadastros.btCadVeiculo.clicked.connect(chamaCadVeiculo)
-    #telaCadastros.btCadReserva.clicked.connect()
+    telaCadastros.btCadReserva.clicked.connect(chamaCadReserva)
     telaCadastros.btVoltar.clicked.connect(voltarCad)
 
 
@@ -196,8 +196,8 @@ def cadVeiculo():
 
     #   INSERE OS DADOS LIDOS NO BANCO
     insere(
-        f"INSERT INTO veiculos VALUES (DEFAULT, '{tipo['id_tipo']}', '{marca['id_marca']}', '{cor['id_cor']}', '{veiculo.modelo}', "
-        f" '{veiculo.n_chassi}', '{veiculo.ano}', '{veiculo.placa}', '{veiculo.valor_diaria}')")
+        f"INSERT INTO veiculos VALUES (DEFAULT, '{tipo['id_tipo']}', '{marca['id_marca']}', '{cor['id_cor']}', "
+        f"'{veiculo.modelo}', '{veiculo.n_chassi}', '{veiculo.ano}', '{veiculo.placa}', '{veiculo.valor_diaria}')")
 
     #   LIMPA AS TEXTBOX
     telaCadVeiculo.tbModeloVeiculo.clear()
@@ -205,6 +205,34 @@ def cadVeiculo():
     telaCadVeiculo.tbNChassiVeiculo.clear()
     telaCadVeiculo.tbNPlacaVeiculo.clear()
     telaCadVeiculo.tbVDiariaVeiculo.clear()
+
+#   TELA DE CADASTRO DE RESERVA
+def chamaCadReserva():
+    telaCadReserva.show()
+    telaCadReserva.labelCliente.setText('')
+    telaCadReserva.btVoltar.clicked.connect(telaCadReserva.close)
+    telaCadReserva.btConCliente.clicked.connect(conCliRes)
+    telaCadReserva.btConVeiculo.clicked.connect(conVeiRes)
+
+#   CONSULTA SE CPF DO CLIENTE ESTÁ CADASTRADO
+def conCliRes():
+    nomeCli = consulta(f"SELECT nome FROM clientes WHERE cpf = '{telaCadReserva.tbCliente.text()}'")
+    if nomeCli == None:
+        telaCadReserva.labelCliente.setText('CLIENTE NÃO EXISTE!')
+    else:
+        telaCadReserva.labelCliente.setText(f'Cliente: {nomeCli["nome"]}')
+
+#   CONSULTA DE PLACA DO VEÍCULO ESTÁ CADASTRADA
+def conVeiRes():
+    modeloVei = consulta(f"SELECT modelo FROM veiculos WHERE numero_placa = '{telaCadReserva.tbVeiculo.text()}'")
+    if modeloVei == None:
+        telaCadReserva.labelVeiculo.setText('VEÌCULO NÃO EXISTE!')
+    else:
+        telaCadReserva.labelVeiculo.setText(f'Veículo: {modeloVei["modelo"]}')
+
+def cadReserva():
+    pass
+
 
 
 def conUsuario():
@@ -220,6 +248,7 @@ telaConsultas = uic.loadUi("telaConsultas.ui")
 telaCadUsuario = uic.loadUi("telaCadastroUsuario.ui")
 telaConUsuario = uic.loadUi("telaConsultaUsuario.ui")
 telaCadVeiculo = uic.loadUi("telaCadastroVeiculo.ui")
+telaCadReserva = uic.loadUi("telaCadReserva.ui")
 
 
 telaLogin.botaoLogin.clicked.connect(login)
