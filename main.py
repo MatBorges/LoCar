@@ -106,7 +106,7 @@ def menuInicial(usuario):
 def menuCadastros():
     telaCadastros.show()
     telaCadastros.btCadUsuario.clicked.connect(cadUsuario)
-    telaCadastros.btCadVeiculo.clicked.connect(cadVeiculo)
+    telaCadastros.btCadVeiculo.clicked.connect(chamaCadVeiculo)
     #telaCadastros.btCadReserva.clicked.connect()
     telaCadastros.btVoltar.clicked.connect(voltarCad)
 
@@ -170,12 +170,19 @@ def cadCliente():
     telaCadUsuario.tbEnderecoCliente.clear()
 
 
-def cadVeiculo():
+def chamaCadVeiculo():
     telaCadVeiculo.show()
     telaCadVeiculo.btVoltar.clicked.connect(telaCadVeiculo.close)
-    veiculo = Veiculo(telaCadVeiculo.tbTipoVeiculo.text(),
-                      telaCadVeiculo.tbMarcaVeiculo.text(),
-                      telaCadVeiculo.tbCorVeiculo.text(),
+    telaCadVeiculo.btCadastrarCliente.clicked.connect(cadVeiculo)
+    telaCadVeiculo.cbTipoVeiculo.addItems(buscaCombobox('SELECT * FROM tipos', 'tipo'))
+    telaCadVeiculo.cbMarcaVeiculo.addItems(buscaCombobox('SELECT * FROM marcas', 'marca'))
+    telaCadVeiculo.cbCorVeiculo.addItems(buscaCombobox('SELECT * FROM cores', 'cor'))
+
+
+def cadVeiculo():
+    veiculo = Veiculo(telaCadVeiculo.cbTipoVeiculo.currentText(),
+                      telaCadVeiculo.cbMarcaVeiculo.currentText(),
+                      telaCadVeiculo.cbCorVeiculo.currentText(),
                       telaCadVeiculo.tbModeloVeiculo.text(),
                       telaCadVeiculo.tbAnoVeiculo.text(),
                       telaCadVeiculo.tbNChassiVeiculo.text(),
@@ -185,13 +192,10 @@ def cadVeiculo():
     marca = consulta(f"SELECT id_marca FROM marcas WHERE marca = '{veiculo.marca}'")
     cor = consulta(f"SELECT id_cor FROM cores WHERE cor = '{veiculo.cor}'")
 
-    print(tipo)
-    print(marca)
-    print(cor)
-
     #   EXECUTANDO NA CHAMADA
-    insere(f"INSERT INTO veiculos VALUES (DEFAULT, '{veiculo.modelo}', '{tipo}', '{marca}', '{cor}', "
-           f" '{veiculo.ano}', '{veiculo.n_chassi}', '{veiculo.placa}', '{veiculo.valor_diaria}')")
+    insere(
+        f"INSERT INTO veiculos VALUES (DEFAULT, '{tipo['id_tipo']}', '{marca['id_marca']}', '{cor['id_cor']}', '{veiculo.modelo}', "
+        f" '{veiculo.n_chassi}', '{veiculo.ano}', '{veiculo.placa}', '{veiculo.valor_diaria}')")
 
 
 def conUsuario():

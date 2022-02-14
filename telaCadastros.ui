@@ -95,8 +95,8 @@ background-color: qlineargradient(spread:reflect, x1:0, y1:0, x2:1, y2:0.943182,
    <widget class="QPushButton" name="btVoltar">
     <property name="geometry">
      <rect>
-      <x>280</x>
-      <y>410</y>
+      <x>30</x>
+      <y>400</y>
       <width>91</width>
       <height>31</height>
      </rect>
