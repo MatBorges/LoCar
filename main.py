@@ -50,30 +50,72 @@ def consulta_reserva(sql):
             return result
 
 
+def logout():
+    telaLogin.textBoxLogin.clear()
+    telaLogin.textBoxSenha.clear()
+    telaInicial.close()
+    telaLogin.show()
+
+
 def login():
     telaLogin.alertaLogin.setText('')
     usuario = telaLogin.textBoxLogin.text()
     senha = telaLogin.textBoxSenha.text()
     senha_banco = consulta(f"SELECT senha FROM funcionarios WHERE login = '{usuario}'")
     if senha_banco == None:
-        telaLogin.alertaLogin.setText('Usuário não existe')
+        telaLogin.alertaLogin.setText('USUÁRIO INVÁLIDO')
     else:
         if senha_banco['senha'] == senha:
             telaLogin.close()
             menuInicial(usuario)
         else:
             telaLogin.alertaLogin.setText('SENHA INVÁLIDA')
+
+
+def voltarCad():
+    telaCadastros.close()
+    telaInicial.show()
+
+
+def voltarCon():
+    telaConsultas.close()
+    telaInicial.show()
+
+
 def menuInicial(usuario):
     nomeUsuario = consulta(f"SELECT nome FROM funcionarios WHERE login = '{usuario}'")
     telaInicial.show()
     telaInicial.boasVindas.setText(f'Bem-vindo {nomeUsuario["nome"]}')
+    telaInicial.btSair.clicked.connect(logout)
+    telaInicial.btCad.clicked.connect(menuCadastros)
+    telaInicial.btCon.clicked.connect(menuConsultas)
+
+
+def menuCadastros():
+    telaCadastros.show()
+    #telaCadastros.btCadUsuario.clicked.connect()
+    #telaCadastros.btCadVeiculo.clicked.connect()
+    #telaCadastros.btCadReserva.clicked.connect()
+    telaCadastros.btVoltar.clicked.connect(voltarCad)
+
+
+def menuConsultas():
+    telaConsultas.show()
+    #telaConsultas.btConUsuario.clicked.connect()
+    #telaConsultas.btConVeiculo.clicked.connect()
+    #telaConsultas.btConReserva.clicked.connect()
+    telaConsultas.btVoltar.clicked.connect(voltarCon)
 
 
 app = QtWidgets.QApplication([])
 telaLogin = uic.loadUi("telaLogin.ui")
 telaInicial = uic.loadUi("telaInicial.ui")
+telaCadastros = uic.loadUi("telaCadastros.ui")
+telaConsultas = uic.loadUi("telaConsultas.ui")
+
 
 telaLogin.botaoLogin.clicked.connect(login)
+
 
 telaLogin.show()
 app.exec()

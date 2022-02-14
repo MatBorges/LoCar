@@ -17,11 +17,11 @@
    <string notr="true">background-color: rgb(172, 172, 172);</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="btCad">
+   <widget class="QPushButton" name="btCadUsuario">
     <property name="geometry">
      <rect>
-      <x>80</x>
-      <y>180</y>
+      <x>220</x>
+      <y>110</y>
       <width>201</width>
       <height>51</height>
      </rect>
@@ -48,7 +48,7 @@ background-color: qlineargradient(spread:reflect, x1:0, y1:0, x2:1, y2:0.943182,
 }</string>
     </property>
     <property name="text">
-     <string>Cadastros</string>
+     <string>Usuário</string>
     </property>
    </widget>
    <widget class="QLabel" name="logoLoCarPequeno">
@@ -70,7 +70,7 @@ background-color: qlineargradient(spread:reflect, x1:0, y1:0, x2:1, y2:0.943182,
      <pixmap>imagens/808107201585380077-64.png</pixmap>
     </property>
    </widget>
-   <widget class="QLabel" name="boasVindas">
+   <widget class="QLabel" name="titulo">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -85,45 +85,14 @@ background-color: qlineargradient(spread:reflect, x1:0, y1:0, x2:1, y2:0.943182,
       <pointsize>24</pointsize>
      </font>
     </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btCon">
-    <property name="geometry">
-     <rect>
-      <x>360</x>
-      <y>180</y>
-      <width>201</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Dubai</family>
-      <pointsize>20</pointsize>
-     </font>
-    </property>
     <property name="cursor">
      <cursorShape>PointingHandCursor</cursorShape>
     </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton{
-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(165, 165, 165, 255), stop:1 rgba(255, 255, 255, 255));
-border-radius: 5px;
-border-style: outset;
-border-width: 1px;
-border-color: black;
-}
-QPushButton:hover{
-background-color: qlineargradient(spread:reflect, x1:0, y1:0, x2:1, y2:0.943182, stop:0 rgba(255, 126, 248, 255), stop:1 rgba(119, 146, 220, 255));
-}</string>
-    </property>
     <property name="text">
-     <string>Consultas</string>
+     <string>Cadastrar</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="btSair">
+   <widget class="QPushButton" name="btVoltar">
     <property name="geometry">
      <rect>
       <x>280</x>
@@ -148,20 +117,93 @@ border-radius: 5px;
 border-style: outset;
 border-width: 1px;
 border-color: black;
+
+}
+
+QPushButton:hover{
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(255, 248, 0, 255), stop:1 rgba(255, 134, 73, 255));
+}
+
+</string>
+    </property>
+    <property name="text">
+     <string>Voltar</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btCadVeiculo">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>180</y>
+      <width>201</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Dubai</family>
+      <pointsize>20</pointsize>
+     </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(165, 165, 165, 255), stop:1 rgba(255, 255, 255, 255));
+border-radius: 5px;
+border-style: outset;
+border-width: 1px;
+border-color: black;
 }
 QPushButton:hover{
-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(255, 118, 84, 255), stop:1 rgba(209, 62, 62, 255));
+background-color: qlineargradient(spread:reflect, x1:0, y1:0, x2:1, y2:0.943182, stop:0 rgba(255, 126, 248, 255), stop:1 rgba(119, 146, 220, 255));
 }</string>
     </property>
     <property name="text">
-     <string>Sair</string>
+     <string>Veículo</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btCadReserva">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>250</y>
+      <width>201</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Dubai</family>
+      <pointsize>20</pointsize>
+     </font>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(165, 165, 165, 255), stop:1 rgba(255, 255, 255, 255));
+border-radius: 5px;
+border-style: outset;
+border-width: 1px;
+border-color: black;
+}
+QPushButton:hover{
+background-color: qlineargradient(spread:reflect, x1:0, y1:0, x2:1, y2:0.943182, stop:0 rgba(255, 126, 248, 255), stop:1 rgba(119, 146, 220, 255));
+}</string>
+    </property>
+    <property name="text">
+     <string>Reserva</string>
     </property>
    </widget>
    <zorder>logoLoCarPequeno</zorder>
-   <zorder>btCad</zorder>
-   <zorder>boasVindas</zorder>
-   <zorder>btCon</zorder>
-   <zorder>btSair</zorder>
+   <zorder>btCadUsuario</zorder>
+   <zorder>titulo</zorder>
+   <zorder>btVoltar</zorder>
+   <zorder>btCadVeiculo</zorder>
+   <zorder>btCadReserva</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
