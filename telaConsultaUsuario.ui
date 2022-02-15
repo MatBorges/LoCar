@@ -153,10 +153,7 @@ background-color: qlineargradient(spread:reflect, x1:0, y1:0, x2:1, y2:0.943182,
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: rgb(227, 227, 227);
-border-radius: 5px;
-border-style: outset;
-border-width: 1px;
-border-color: black;</string>
+</string>
     </property>
     <property name="frameShape">
      <enum>QFrame::StyledPanel</enum>
@@ -164,17 +161,21 @@ border-color: black;</string>
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QLineEdit" name="texBoxCPF">
+    <widget class="QLineEdit" name="tbCPF">
      <property name="geometry">
       <rect>
        <x>80</x>
-       <y>130</y>
+       <y>10</y>
        <width>291</width>
        <height>31</height>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color: rgb(255, 255, 255);</string>
+      <string notr="true">background-color: rgb(255, 255, 255);
+border-radius: 5px;
+border-style: outset;
+border-width: 1px;
+border-color: black;</string>
      </property>
      <property name="placeholderText">
       <string>CPF do cliente</string>
@@ -184,7 +185,7 @@ border-color: black;</string>
      <property name="geometry">
       <rect>
        <x>390</x>
-       <y>130</y>
+       <y>10</y>
        <width>141</width>
        <height>31</height>
       </rect>
@@ -234,11 +235,11 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QLineEdit" name="texBoxMatricula">
+    <widget class="QLineEdit" name="tbMatricula">
      <property name="geometry">
       <rect>
        <x>80</x>
-       <y>136</y>
+       <y>10</y>
        <width>291</width>
        <height>31</height>
       </rect>
@@ -258,7 +259,7 @@ border-color: black;</string>
      <property name="geometry">
       <rect>
        <x>390</x>
-       <y>136</y>
+       <y>10</y>
        <width>141</width>
        <height>31</height>
       </rect>
@@ -288,13 +289,133 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
       <string>Consultar</string>
      </property>
     </widget>
+    <widget class="QLabel" name="tagNomeFunc">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>90</y>
+       <width>71</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>16</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Nome:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="tagLoginFunc">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>130</y>
+       <width>71</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>16</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Login:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="tagMatriculaFunc">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>170</y>
+       <width>111</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>16</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Matricula:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelNomeFunc">
+     <property name="geometry">
+      <rect>
+       <x>160</x>
+       <y>90</y>
+       <width>371</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>16</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelLoginFunc">
+     <property name="geometry">
+      <rect>
+       <x>160</x>
+       <y>130</y>
+       <width>131</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>16</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelMatriculaFunc">
+     <property name="geometry">
+      <rect>
+       <x>200</x>
+       <y>170</y>
+       <width>151</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>16</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
    </widget>
    <zorder>logoLoCarPequeno</zorder>
    <zorder>btConFuncionario</zorder>
    <zorder>btVoltar</zorder>
    <zorder>btConCliente</zorder>
-   <zorder>frameConFuncionario</zorder>
    <zorder>frameConCliente</zorder>
+   <zorder>frameConFuncionario</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

@@ -285,7 +285,35 @@ def cadReserva():
 
 def conUsuario():
     telaConUsuario.show()
+    telaConUsuario.btConFuncionario.clicked.connect(telaConUsuario.frameConFuncionario.show)
+    telaConUsuario.btConCliente.clicked.connect(telaConUsuario.frameConFuncionario.close)
     telaConUsuario.btVoltar.clicked.connect(telaConUsuario.close)
+    telaConUsuario.btConsultarFuncionario.clicked.connect(conFuncionario)
+    telaConUsuario.btConsultarCliente.clicked.connect(conCliente)
+
+
+def conFuncionario():
+    telaConUsuario.labelNomeFunc.clear()
+    telaConUsuario.labelLoginFunc.clear()
+    telaConUsuario.labelMatriculaFunc.clear()
+    funcionario = consulta(f"SELECT * FROM funcionarios WHERE matricula = "
+                           f"'{telaConUsuario.tbMatricula.text()}'")
+    if funcionario == None:
+        telaConUsuario.labelNomeFunc.setText('FUNCIONÁRIO INVÁLIDO')
+
+    else:
+        telaConUsuario.labelNomeFunc.setText(funcionario['nome'])
+        telaConUsuario.labelLoginFunc.setText(funcionario['login'])
+        telaConUsuario.labelMatriculaFunc.setText(funcionario['matricula'])
+
+
+def conCliente():
+    cliente = consulta(f"SELECT * FROM clientes WHERE cpf = "
+                       f"'{telaConUsuario.tbCPF.text()}'")
+    if cliente == None:
+        print('CLIENTE INVÁLIDO')
+    else:
+        print(cliente)
 
 
 app = QtWidgets.QApplication([])
