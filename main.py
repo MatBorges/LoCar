@@ -346,53 +346,7 @@ telaLogin.botaoLogin.clicked.connect(login)
 telaLogin.show()
 app.exec()
 
-'''    # Consultas
-    elif opc == 4:
-        while True:
-            opcConsulta = int(input('\033[1;33mCONSULTAS\033[m'
-                                    '\n1. Consultar Usuário'
-                                    '\n2. Consultar Veículo'
-                                    '\n3. Consultar Reserva'
-                                    '\n4. Voltar'
-                                    '\n:'))
-            if opcConsulta == 4:
-                break
-
-            #   CONSULTA USUÁRIO
-            if opcConsulta == 1:
-                opcConsultaUsuario = int(input('\033[1;33mCONSULTA DE USUÁRIO\033[m'
-                                               '\n1. Funcionário'
-                                               '\n2. Cliente'
-                                               '\n3. Voltar'
-                                               '\n:'))
-
-                #   CONSULTA FUNCIONÁRIO
-                if opcConsultaUsuario == 1:
-                    print('\033[1;33mCONSULTA DE FUNCIONÁRIO\033[m')
-                    matricula = input('Qual a Matricula do Funcionário?: ')
-                    resultado = consulta(f"SELECT * FROM funcionarios WHERE matricula = '{matricula}'")
-                    print('*=' * 20)
-                    for k, v in resultado.items():
-                        print(f'{k}: {v}')
-                    print('*=' * 20)
-
-                #   CONSULTA CLIENTE
-                elif opcConsultaUsuario == 2:
-                    print('\033[1;33mCONSULTA DE CLIENTE\033[m')
-                    cpf = input('Qual o CPF do Cliente?: ')
-                    resultado = consulta(f"SELECT * FROM clientes WHERE cpf = '{cpf}'")
-                    print('*=' * 20)
-                    for k, v in resultado.items():
-                        print(f'{k}: {v}')
-                    print('*=' * 20)
-
-                #   SAIR DA CONSULTA DO USUÁRIO
-                elif opcConsultaUsuario == 3:
-                    break
-                else:
-                    print('\033[1;31mOPÇÃO INVÁLIDA!!!\033[m')
-
-            #   CONSULTA DE VEÍCULO
+'''        #   CONSULTA DE VEÍCULO
             elif opcConsulta == 2:
                 print('\033[1;33mCONSULTA DE VEÍCULO\033[m')
                 placa = input('Qual o número da placa?: ')
