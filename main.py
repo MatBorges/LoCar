@@ -305,15 +305,28 @@ def conFuncionario():
         telaConUsuario.labelNomeFunc.setText(funcionario['nome'])
         telaConUsuario.labelLoginFunc.setText(funcionario['login'])
         telaConUsuario.labelMatriculaFunc.setText(funcionario['matricula'])
+        telaConUsuario.tbMatricula.clear()
 
 
 def conCliente():
+    telaConUsuario.labelNomeCli.clear()
+    telaConUsuario.labelLoginCli.clear()
+    telaConUsuario.labelCPFCli.clear()
+    telaConUsuario.labelCNHCli.clear()
+    telaConUsuario.labelTelefoneCli.clear()
+    telaConUsuario.labelEnderecoCli.clear()
     cliente = consulta(f"SELECT * FROM clientes WHERE cpf = "
                        f"'{telaConUsuario.tbCPF.text()}'")
     if cliente == None:
-        print('CLIENTE INVÁLIDO')
+        telaConUsuario.labelNomeCli.setText('FUNCIONÁRIO INVÁLIDO')
     else:
-        print(cliente)
+        telaConUsuario.labelNomeCli.setText(cliente['nome'])
+        telaConUsuario.labelLoginCli.setText(cliente['login'])
+        telaConUsuario.labelCPFCli.setText(cliente['cpf'])
+        telaConUsuario.labelCNHCli.setText(cliente['cnh'])
+        telaConUsuario.labelTelefoneCli.setText(cliente['telefone'])
+        telaConUsuario.labelEnderecoCli.setText(cliente['endereco'])
+        telaConUsuario.tbCPF.clear()
 
 
 app = QtWidgets.QApplication([])
