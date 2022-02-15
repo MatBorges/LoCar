@@ -2,10 +2,11 @@ from funcionario import Funcionario
 from cliente import Cliente
 #   from reserva import Reserva
 from veiculo import Veiculo
-#   from datetime import date
+from datetime import date
 import pymysql.cursors
 from contextlib import contextmanager
 from PyQt5 import uic, QtWidgets
+from PyQt5 import QtCore
 
 
 def teste(teste):
@@ -210,28 +211,70 @@ def cadVeiculo():
 def chamaCadReserva():
     telaCadReserva.show()
     telaCadReserva.labelCliente.setText('')
+    telaCadReserva.labelVeiculo.setText('')
+    dataHj = str(date.today())
+    ano = int(dataHj[0:4])
+    mes = int(dataHj[5:7])
+    dia = int(dataHj[8:])
+    telaCadReserva.dateReserva.setDate(QtCore.QDate(ano, mes, dia))
     telaCadReserva.btVoltar.clicked.connect(telaCadReserva.close)
     telaCadReserva.btConCliente.clicked.connect(conCliRes)
     telaCadReserva.btConVeiculo.clicked.connect(conVeiRes)
+    telaCadReserva.btCadastrarCliente.clicked.connect(cadReserva)
+
 
 #   CONSULTA SE CPF DO CLIENTE ESTÁ CADASTRADO
 def conCliRes():
-    nomeCli = consulta(f"SELECT nome FROM clientes WHERE cpf = '{telaCadReserva.tbCliente.text()}'")
+    nomeCli = consulta(f"SELECT id_cliente, nome, cpf FROM clientes WHERE cpf = '{telaCadReserva.tbCliente.text()}'")
     if nomeCli == None:
         telaCadReserva.labelCliente.setText('CLIENTE NÃO EXISTE!')
     else:
-        telaCadReserva.labelCliente.setText(f'Cliente: {nomeCli["nome"]}')
+        telaCadReserva.labelCliente.setText(f'Cliente: {nomeCli["nome"]} CPF: {nomeCli["cpf"]}')
+    telaCadReserva.tbCliente.clear()
+    return nomeCli['id_cliente']
 
 #   CONSULTA DE PLACA DO VEÍCULO ESTÁ CADASTRADA
 def conVeiRes():
-    modeloVei = consulta(f"SELECT modelo FROM veiculos WHERE numero_placa = '{telaCadReserva.tbVeiculo.text()}'")
+    modeloVei = consulta(f"SELECT id_veiculo, fk_id_marca, modelo, ano, fk_id_cor FROM veiculos WHERE numero_placa = "
+                         f"'{telaCadReserva.tbVeiculo.text()}'")
     if modeloVei == None:
         telaCadReserva.labelVeiculo.setText('VEÌCULO NÃO EXISTE!')
     else:
-        telaCadReserva.labelVeiculo.setText(f'Veículo: {modeloVei["modelo"]}')
+        cor = consulta(f"SELECT c.cor FROM cores AS c "
+                       f"JOIN veiculos AS v "
+                       f"ON c.id_cor = v.fk_id_cor "
+                       f"WHERE c.id_cor = {modeloVei['fk_id_cor']}")
+        marca = consulta(f"SELECT m.marca FROM marcas AS m "
+                         f"JOIN veiculos AS v "
+                         f"ON m.id_marca = v.fk_id_marca "
+                         f"WHERE m.id_marca = {modeloVei['fk_id_marca']}")
+        telaCadReserva.labelVeiculo.setText(f'Veículo: {marca["marca"]} {modeloVei["modelo"]} '
+                                            f'{modeloVei["ano"]}, {cor["cor"]}')
+    telaCadReserva.tbVeiculo.clear()
+    return modeloVei['id_veiculo']
+
 
 def cadReserva():
-    pass
+    '''periodo = int(telaCadReserva.tbPeriodo.text())
+    valor_diaria = float(consulta(f"SELECT valor_diaria FROM veiculos WHERE id_veiculo = '{conVeiRes()}'"))'''
+    data = str(telaCadReserva.dateReserva.date())
+    data = data[19:]
+    ano = data[19:23]
+    mes = data[24:26]
+    dia = data[27:30]
+    data_inicio = ano + '-' + mes + '-' + dia
+    print(data_inicio)
+
+    #   conCliRes() retorna id_cliente e conVeiRes retorna id_veiculo
+    '''reserva = Reserva(conCliRes(),
+                      conVeiRes(),
+                      date.today(),
+                      data_inicio,
+                      periodo,
+                      (valor_diaria * periodo))
+    insere(f"INSERT INTO reservas VALUES "
+           f"(DEFAULT, '{reserva.cliente}', '{reserva.veiculo}', '{reserva.data_agendamento}', '{reserva.data_inicio}', "
+           f"'{reserva.periodo}', '{reserva.valor_total}')")'''
 
 
 

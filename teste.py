@@ -1,5 +1,6 @@
 import pymysql.cursors
 from contextlib import contextmanager
+from datetime import date
 
 @contextmanager
 def conecta():
@@ -32,10 +33,11 @@ def buscaCombobox(sql, chave):
         cb.append(v[chave])
     return cb
 
-comboTipos = buscaCombobox('SELECT * FROM tipos', 'tipo')
-comboMarcas = buscaCombobox('SELECT * FROM marcas', 'marca')
-comboCores = buscaCombobox('SELECT * FROM cores', 'cor')
-
-print(comboTipos)
-print(comboMarcas)
-print(comboCores)
+dataHj = str(date.today())
+ano = dataHj[0:4]
+mes = dataHj[5:7]
+dia = dataHj[8:]
+print('ano: ' + ano)
+print('mes: ' + mes)
+print('dia: ' + dia)
+print(dataHj)
