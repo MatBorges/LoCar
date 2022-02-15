@@ -1,6 +1,6 @@
 from funcionario import Funcionario
 from cliente import Cliente
-#   from reserva import Reserva
+from reserva import Reserva
 from veiculo import Veiculo
 from datetime import date
 import pymysql.cursors
@@ -230,7 +230,7 @@ def conCliRes():
         telaCadReserva.labelCliente.setText('CLIENTE NÃO EXISTE!')
     else:
         telaCadReserva.labelCliente.setText(f'Cliente: {nomeCli["nome"]} CPF: {nomeCli["cpf"]}')
-    telaCadReserva.tbCliente.clear()
+    #telaCadReserva.tbCliente.clear()
     return nomeCli['id_cliente']
 
 #   CONSULTA DE PLACA DO VEÍCULO ESTÁ CADASTRADA
@@ -250,32 +250,37 @@ def conVeiRes():
                          f"WHERE m.id_marca = {modeloVei['fk_id_marca']}")
         telaCadReserva.labelVeiculo.setText(f'Veículo: {marca["marca"]} {modeloVei["modelo"]} '
                                             f'{modeloVei["ano"]}, {cor["cor"]}')
-    telaCadReserva.tbVeiculo.clear()
+    #telaCadReserva.tbVeiculo.clear()
     return modeloVei['id_veiculo']
 
 
 def cadReserva():
-    '''periodo = int(telaCadReserva.tbPeriodo.text())
-    valor_diaria = float(consulta(f"SELECT valor_diaria FROM veiculos WHERE id_veiculo = '{conVeiRes()}'"))'''
+    idVei = conVeiRes()
+    idCli = conCliRes()
+    periodo = telaCadReserva.tbPeriodo.text()
+    valor_diaria = consulta(f"SELECT valor_diaria FROM veiculos WHERE id_veiculo = '{idVei}'")
+    valor_diaria = float(valor_diaria['valor_diaria'])
     data = str(telaCadReserva.dateReserva.date())
+
+    #   Formata a saída de .date()
     data = data[19:]
-    ano = data[19:23]
-    mes = data[24:26]
-    dia = data[27:30]
-    data_inicio = ano + '-' + mes + '-' + dia
-    print(data_inicio)
+    dataForm = ''
+    for i in data:
+        if i in '0123456789':
+            dataForm = (dataForm + i)
+        elif i == ',':
+            dataForm = (dataForm + '-')
 
     #   conCliRes() retorna id_cliente e conVeiRes retorna id_veiculo
-    '''reserva = Reserva(conCliRes(),
-                      conVeiRes(),
+    reserva = Reserva(idCli,
+                      idVei,
                       date.today(),
-                      data_inicio,
-                      periodo,
-                      (valor_diaria * periodo))
+                      dataForm,
+                      telaCadReserva.tbPeriodo.text(),
+                      (valor_diaria * int(periodo)))
     insere(f"INSERT INTO reservas VALUES "
            f"(DEFAULT, '{reserva.cliente}', '{reserva.veiculo}', '{reserva.data_agendamento}', '{reserva.data_inicio}', "
-           f"'{reserva.periodo}', '{reserva.valor_total}')")'''
-
+           f"'{reserva.periodo}', '{reserva.valor_total}')")
 
 
 def conUsuario():
@@ -300,97 +305,7 @@ telaLogin.botaoLogin.clicked.connect(login)
 telaLogin.show()
 app.exec()
 
-'''while True:
-    print('LoCar')
-    opc = int(input('\033[1;33mCADASTROS\033[m'
-                    '\n1. Cadastrar Usuário'
-                    '\n2. Cadastrar Veículo'
-                    '\n3. Cadastrar Reserva'
-                    '\n4. Consultas'
-                    '\n5. Sair'
-                    '\n:'))
-    if opc == 5:  # Sair
-        print('Até Mais!!!')
-        break
-    # Cadastrar Usuário
-    elif opc == 1:
-        while True:
-            opcUsuario = int(input('\033[1;33mCADASTRO DE USUÁRIO\033[m'
-                                   '\n1. Funcionário'
-                                   '\n2. Cliente'
-                                   '\n3. Voltar'
-                                   '\n:'))
-            if opcUsuario == 3:
-                break
-
-            #   Cadastro de Funcionário
-            elif opcUsuario == 1:
-                print('\033[1;33mCADASTRO DE FUNCIONÁRIO\033[m')
-                funcionario = Funcionario(input('Nome do Funcionário: '),
-                                          input('Login do Funcionário: '),
-                                          input('Senha do Funcionário: '),
-                                          input('Matricula do Funcionário: '))
-
-                #   Conecta e insere FUNCIONARIO no banco
-                insere(f"INSERT INTO funcionarios VALUES (DEFAULT, '{funcionario.nome}', '{funcionario.login}', "
-                       f"'{funcionario.senha}', '{funcionario.matricula}')")
-
-            elif opcUsuario == 2:
-                print('\033[1;33mCADASTRO DE CLIENTE\033[m')
-                cliente = Cliente(input('Nome do Cliente: '),
-                                  input('Login do Cliente: '),
-                                  input('Senha do Cliente: '),
-                                  input('CPF do Cliente: '),
-                                  input('CNH do Cliente: '),
-                                  input('Número do Cartão do Cliente: '),
-                                  input('Telefone do Cliente: '),
-                                  input('Endereço do Cliente: '))
-
-                #    Conecta e insere CLIENTE no banco
-                insere(f"INSERT INTO clientes VALUES (DEFAULT, '{cliente.nome}', '{cliente.login}', '{cliente.senha}', "
-                       f"'{cliente.cpf}', '{cliente.cnh}', '{cliente.numero_cartao}', '{cliente.telefone}', "
-                       f"'{cliente.endereco}')")
-            else:
-                print('\033[1;31mOPÇÃO INVÁLIDA\033[m')
-
-    # Cadastrar Veículo
-    elif opc == 2:
-        print('\033[1;33mCADASTRO DE VEÍCULO\033[m')
-        veiculo = Veiculo(input('Qual o tipo do Veiculo?: '),
-                          input('Qual a marca do Veículo?: '),
-                          input('Qual o modelo do Veículo?: '),
-                          input('Qual a cor do Veículo?: '),
-                          input('Qual o número do chassi do veículo?: '),
-                          input('Qual o ano do Veículo?: '),
-                          input('Qual a placa do Veículo?: '),
-                          input('Qual o valor da diária do Veículo?: '))
-
-        #   Conexão com o banco
-        insere(f"INSERT INTO veiculos VALUES (DEFAULT, '{veiculo.tipo}', '{veiculo.marca}', '{veiculo.cor}', "
-               f"'{veiculo.modelo}', '{veiculo.ano}', '{veiculo.n_chassi}', '{veiculo.placa}', '{veiculo.valor_diaria}')")
-
-    # Cadastrar Reserva
-    elif opc == 3:
-        print('\033[1;33mCADASTRO DE RESERVA\033[m')
-        cpf_cliente = input('Qual o CPF do Cliente da reserva?: ')
-        placa_veiculo = input('Qual a placa do Veículo?: ')
-        cliente = consulta(f"SELECT id_cliente FROM clientes WHERE cpf = '{cpf_cliente}'")
-        veiculo = consulta(f"SELECT * FROM veiculos WHERE numero_placa = '{placa_veiculo}'")
-        data_inicio = input('Qual a data de Inicio da Aluguel?: ')
-        periodo = int(input('Qual a duração do Aluguel?(em dias): '))
-
-        #   Fazer a consulta do Cliente e Veículo
-        reserva = Reserva(cliente['id_cliente'],
-                          veiculo['id_veiculo'],
-                          date.today(),
-                          data_inicio,
-                          periodo,
-                          (veiculo['valor_diaria'] * periodo))
-        insere(f"INSERT INTO reservas VALUES "
-               f"(DEFAULT, '{reserva.cliente}', '{reserva.veiculo}', '{reserva.data_agendamento}', '{reserva.data_inicio}', "
-               f"'{reserva.periodo}', '{reserva.valor_total}')")
-
-    # Consultas
+'''    # Consultas
     elif opc == 4:
         while True:
             opcConsulta = int(input('\033[1;33mCONSULTAS\033[m'
