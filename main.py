@@ -354,13 +354,13 @@ def conVeiculo():
                          f"ON v.fk_id_marca = m.id_marca "
                          f"WHERE v.numero_placa = {veiculo['numero_placa']}")
         cor = consulta(f"SELECT cor FROM cores AS c "
-                         f"JOIN veiculos AS v "
-                         f"ON v.fk_id_cor = c.id_cor "
-                         f"WHERE v.numero_placa = {veiculo['numero_placa']}")
+                       f"JOIN veiculos AS v "
+                       f"ON v.fk_id_cor = c.id_cor "
+                       f"WHERE v.numero_placa = {veiculo['numero_placa']}")
         tipo = consulta(f"SELECT tipo FROM tipos AS t "
-                         f"JOIN veiculos AS v "
-                         f"ON v.fk_id_tipo = t.id_tipo "
-                         f"WHERE v.numero_placa = {veiculo['numero_placa']}")
+                        f"JOIN veiculos AS v "
+                        f"ON v.fk_id_tipo = t.id_tipo "
+                        f"WHERE v.numero_placa = {veiculo['numero_placa']}")
 
         telaConVeiculo.labelMarcaVei.setText(marca['marca'])
         telaConVeiculo.labelModeloVei.setText(veiculo['modelo'])
@@ -369,7 +369,9 @@ def conVeiculo():
         telaConVeiculo.labelTipoVei.setText(tipo['tipo'])
         telaConVeiculo.labelPlacaVei.setText(veiculo['numero_placa'])
         telaConVeiculo.labelChassiVei.setText(veiculo['numero_chassi'])
-        telaConVeiculo.labelValorDiariaVei.setText(veiculo['valor_diaria'])
+        telaConVeiculo.labelValorDiariaVei.setText('R$ ' + str(veiculo['valor_diaria']))
+
+        print(veiculo['valor_diaria'])
 
 
 app = QtWidgets.QApplication([])
