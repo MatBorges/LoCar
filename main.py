@@ -115,7 +115,7 @@ def menuCadastros():
 def menuConsultas():
     telaConsultas.show()
     telaConsultas.btConUsuario.clicked.connect(conUsuario)
-    #telaConsultas.btConVeiculo.clicked.connect()
+    telaConsultas.btConVeiculo.clicked.connect(tConVeiculo)
     #telaConsultas.btConReserva.clicked.connect()
     telaConsultas.btVoltar.clicked.connect(voltarCon)
 
@@ -299,7 +299,7 @@ def conFuncionario():
     funcionario = consulta(f"SELECT * FROM funcionarios WHERE matricula = "
                            f"'{telaConUsuario.tbMatricula.text()}'")
     if funcionario == None:
-        telaConUsuario.labelNomeFunc.setText('FUNCIONÁRIO INVÁLIDO')
+        telaConUsuario.labelNomeFunc.setText('MATRICULA NÃO CADASTRADA')
 
     else:
         telaConUsuario.labelNomeFunc.setText(funcionario['nome'])
@@ -318,7 +318,7 @@ def conCliente():
     cliente = consulta(f"SELECT * FROM clientes WHERE cpf = "
                        f"'{telaConUsuario.tbCPF.text()}'")
     if cliente == None:
-        telaConUsuario.labelNomeCli.setText('FUNCIONÁRIO INVÁLIDO')
+        telaConUsuario.labelNomeCli.setText('CPF NÃO CADASTRADO')
     else:
         telaConUsuario.labelNomeCli.setText(cliente['nome'])
         telaConUsuario.labelLoginCli.setText(cliente['login'])
@@ -327,6 +327,49 @@ def conCliente():
         telaConUsuario.labelTelefoneCli.setText(cliente['telefone'])
         telaConUsuario.labelEnderecoCli.setText(cliente['endereco'])
         telaConUsuario.tbCPF.clear()
+
+
+def tConVeiculo():
+    telaConVeiculo.show()
+    telaConVeiculo.btVoltar.clicked.connect(telaConVeiculo.close)
+    telaConVeiculo.btConsultarVeiculo.clicked.connect(conVeiculo)
+
+def conVeiculo():
+    telaConVeiculo.labelMarcaVei.clear()
+    telaConVeiculo.labelModeloVei.clear()
+    telaConVeiculo.labelAnoVei.clear()
+    telaConVeiculo.labelCorVei.clear()
+    telaConVeiculo.labelTipoVei.clear()
+    telaConVeiculo.labelPlacaVei.clear()
+    telaConVeiculo.labelChassiVei.clear()
+    telaConVeiculo.labelValorDiariaVei.clear()
+
+    veiculo = consulta(f"SELECT * FROM veiculos WHERE numero_placa = '{telaConVeiculo.tbNumeroPlaca.text()}'")
+
+    if veiculo == None:
+        telaConVeiculo.labelMarcaVei.setText('PLACA NÃO CADASTRADA')
+    else:
+        marca = consulta(f"SELECT marca FROM marcas AS m "
+                         f"JOIN veiculos AS v "
+                         f"ON v.fk_id_marca = m.id_marca "
+                         f"WHERE v.numero_placa = {veiculo['numero_placa']}")
+        cor = consulta(f"SELECT cor FROM cores AS c "
+                         f"JOIN veiculos AS v "
+                         f"ON v.fk_id_cor = c.id_cor "
+                         f"WHERE v.numero_placa = {veiculo['numero_placa']}")
+        tipo = consulta(f"SELECT tipo FROM tipos AS t "
+                         f"JOIN veiculos AS v "
+                         f"ON v.fk_id_tipo = t.id_tipo "
+                         f"WHERE v.numero_placa = {veiculo['numero_placa']}")
+
+        telaConVeiculo.labelMarcaVei.setText(marca['marca'])
+        telaConVeiculo.labelModeloVei.setText(veiculo['modelo'])
+        telaConVeiculo.labelAnoVei.setText(veiculo['ano'])
+        telaConVeiculo.labelCorVei.setText(cor['cor'])
+        telaConVeiculo.labelTipoVei.setText(tipo['tipo'])
+        telaConVeiculo.labelPlacaVei.setText(veiculo['numero_placa'])
+        telaConVeiculo.labelChassiVei.setText(veiculo['numero_chassi'])
+        telaConVeiculo.labelValorDiariaVei.setText(veiculo['valor_diaria'])
 
 
 app = QtWidgets.QApplication([])
@@ -338,6 +381,7 @@ telaCadUsuario = uic.loadUi("telaCadastroUsuario.ui")
 telaConUsuario = uic.loadUi("telaConsultaUsuario.ui")
 telaCadVeiculo = uic.loadUi("telaCadastroVeiculo.ui")
 telaCadReserva = uic.loadUi("telaCadReserva.ui")
+telaConVeiculo = uic.loadUi("telaConsultaVeiculo.ui")
 
 
 telaLogin.botaoLogin.clicked.connect(login)
