@@ -7,6 +7,7 @@ import pymysql.cursors
 from contextlib import contextmanager
 from PyQt5 import uic, QtWidgets
 from PyQt5 import QtCore
+from PyQt5.QtWidgets import QTableWidgetItem
 
 
 def teste(teste):
@@ -392,10 +393,10 @@ def conReserva():
         telaConReserva.labelNaoCad.setText('Nenhuma Reserva Cadastrada para esse CPF')
     else:
         for indice, valorL in enumerate(resultado):
-            #telaConReserva.resultado.insertRow(indice)
-            #print(indice, valorL)
-            for chave, valorD in enumerate(resultado[indice]):
-                print(chave, valorD)
+            telaConReserva.resultado.insertRow(indice)
+            for iDic, valorD in enumerate(valorL.items()):
+                telaConReserva.resultado.setItem(indice, iDic, QTableWidgetItem(str(valorD[1])))
+    telaConReserva.tbCPFReserva.clear()
 
 
 app = QtWidgets.QApplication([])
