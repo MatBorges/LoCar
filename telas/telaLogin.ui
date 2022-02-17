@@ -165,7 +165,7 @@ border-width: 1px;
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap>imagens/808107201585380077-256.png</pixmap>
+     <pixmap>../imagens/808107201585380077-256.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="alertaLogin">

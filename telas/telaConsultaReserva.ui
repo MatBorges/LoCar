@@ -207,10 +207,10 @@ border-width: 1px;
 border-color: black;</string>
      </property>
      <property name="placeholderText">
-      <string>Nº na Placa</string>
+      <string>CPF do Cliente</string>
      </property>
     </widget>
-    <widget class="QTableWidget" name="Resultado">
+    <widget class="QTableWidget" name="resultado">
      <property name="geometry">
       <rect>
        <x>15</x>

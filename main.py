@@ -279,8 +279,8 @@ def cadReserva():
                       telaCadReserva.tbPeriodo.text(),
                       (valor_diaria * int(periodo)))
     insere(f"INSERT INTO reservas VALUES "
-           f"(DEFAULT, '{reserva.cliente}', '{reserva.veiculo}', '{reserva.data_agendamento}', '{reserva.data_inicio}', "
-           f"'{reserva.periodo}', '{reserva.valor_total}')")
+           f"(DEFAULT, '{reserva.cliente}', '{reserva.veiculo}', '{reserva.data_agendamento}', '{reserva.data_inicio}',"
+           f" '{reserva.periodo}', '{reserva.valor_total}')")
 
 
 def conUsuario():
@@ -380,28 +380,35 @@ def tConReserva():
 
 def conReserva():
     cpfReserva = telaConReserva.tbCPFReserva.text()
-    resultado = consultaVarios(f"SELECT * FROM reservas AS r "
+    resultado = consultaVarios(f"SELECT c.nome, v.modelo, r.data_agendamento, r.data_inicio, r.periodo, r.valor_total "
+                               f"FROM reservas AS r "                               
                                f"JOIN clientes AS c "
                                f"ON c.id_cliente = r.fk_id_cliente "
+                               f"JOIN veiculos AS v "
+                               f"ON v.id_veiculo = r.fk_id_veiculo "                        
                                f"WHERE c.cpf = '{cpfReserva}'")
 
     if resultado == None or (len(resultado) == 0):
-        telaConReserva.labelNaoCad.setText('Nenhuma Reserva Cadastrada para esse CPF!!')
+        telaConReserva.labelNaoCad.setText('Nenhuma Reserva Cadastrada para esse CPF')
     else:
-        pass
+        for indice, valorL in enumerate(resultado):
+            #telaConReserva.resultado.insertRow(indice)
+            #print(indice, valorL)
+            for chave, valorD in enumerate(resultado[indice]):
+                print(chave, valorD)
 
 
 app = QtWidgets.QApplication([])
-telaLogin = uic.loadUi("telaLogin.ui")
-telaInicial = uic.loadUi("telaInicial.ui")
-telaCadastros = uic.loadUi("telaCadastros.ui")
-telaConsultas = uic.loadUi("telaConsultas.ui")
-telaCadUsuario = uic.loadUi("telaCadastroUsuario.ui")
-telaConUsuario = uic.loadUi("telaConsultaUsuario.ui")
-telaCadVeiculo = uic.loadUi("telaCadastroVeiculo.ui")
-telaCadReserva = uic.loadUi("telaCadReserva.ui")
-telaConVeiculo = uic.loadUi("telaConsultaVeiculo.ui")
-telaConReserva = uic.loadUi("telaConsultaReserva.ui")
+telaLogin = uic.loadUi("telas/telaLogin.ui")
+telaInicial = uic.loadUi("telas/telaInicial.ui")
+telaCadastros = uic.loadUi("telas/telaCadastros.ui")
+telaConsultas = uic.loadUi("telas/telaConsultas.ui")
+telaCadUsuario = uic.loadUi("telas/telaCadastroUsuario.ui")
+telaConUsuario = uic.loadUi("telas/telaConsultaUsuario.ui")
+telaCadVeiculo = uic.loadUi("telas/telaCadastroVeiculo.ui")
+telaCadReserva = uic.loadUi("telas/telaCadReserva.ui")
+telaConVeiculo = uic.loadUi("telas/telaConsultaVeiculo.ui")
+telaConReserva = uic.loadUi("telas/telaConsultaReserva.ui")
 
 
 telaLogin.botaoLogin.clicked.connect(login)
