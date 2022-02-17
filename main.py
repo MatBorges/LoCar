@@ -54,7 +54,7 @@ def consulta(sql):
             return result
 
 
-#   CONSULTA RESERVA
+#   CONSULTA NO BANCO E RETORNA VARIAS OCORRÊNCIAS
 def consultaVarios(sql):
     with conecta() as conexao:
         with conexao.cursor() as cursor:
@@ -116,7 +116,7 @@ def menuConsultas():
     telaConsultas.show()
     telaConsultas.btConUsuario.clicked.connect(conUsuario)
     telaConsultas.btConVeiculo.clicked.connect(tConVeiculo)
-    #telaConsultas.btConReserva.clicked.connect()
+    telaConsultas.btConReserva.clicked.connect(tConReserva)
     telaConsultas.btVoltar.clicked.connect(voltarCon)
 
 
@@ -371,7 +371,24 @@ def conVeiculo():
         telaConVeiculo.labelChassiVei.setText(veiculo['numero_chassi'])
         telaConVeiculo.labelValorDiariaVei.setText('R$ ' + str(veiculo['valor_diaria']))
 
-        print(veiculo['valor_diaria'])
+
+def tConReserva():
+    telaConReserva.show()
+    telaConReserva.btVoltar.clicked.connect(telaConReserva.close)
+    telaConReserva.btConsultaReserva.clicked.connect(conReserva)
+
+
+def conReserva():
+    cpfReserva = telaConReserva.tbCPFReserva.text()
+    resultado = consultaVarios(f"SELECT * FROM reservas AS r "
+                               f"JOIN clientes AS c "
+                               f"ON c.id_cliente = r.fk_id_cliente "
+                               f"WHERE c.cpf = '{cpfReserva}'")
+
+    if resultado == None or (len(resultado) == 0):
+        telaConReserva.labelNaoCad.setText('Nenhuma Reserva Cadastrada para esse CPF!!')
+    else:
+        pass
 
 
 app = QtWidgets.QApplication([])
@@ -384,6 +401,7 @@ telaConUsuario = uic.loadUi("telaConsultaUsuario.ui")
 telaCadVeiculo = uic.loadUi("telaCadastroVeiculo.ui")
 telaCadReserva = uic.loadUi("telaCadReserva.ui")
 telaConVeiculo = uic.loadUi("telaConsultaVeiculo.ui")
+telaConReserva = uic.loadUi("telaConsultaReserva.ui")
 
 
 telaLogin.botaoLogin.clicked.connect(login)
@@ -392,17 +410,7 @@ telaLogin.botaoLogin.clicked.connect(login)
 telaLogin.show()
 app.exec()
 
-'''        #   CONSULTA DE VEÍCULO
-            elif opcConsulta == 2:
-                print('\033[1;33mCONSULTA DE VEÍCULO\033[m')
-                placa = input('Qual o número da placa?: ')
-                resultado = consulta(f"SELECT * FROM veiculos where numero_placa = '{placa}'")
-                print('*=' * 20)
-                for k, v in resultado.items():
-                    print(f'{k}: {v}')
-                print('*=' * 20)
-
-            #   CONSULTA RESERVA
+'''         #   CONSULTA RESERVA
             elif opcConsulta == 3:
                 print('\033[1;33mCONSULTA DE RESERVA\033[m')
                 cpf = input('Digite o CPF do cliente para consultar as reservas cadastradas: ')
