@@ -31,6 +31,7 @@ def conecta():
         conexao.close()  # encerra a conexão
 
 
+#   INSERE OS DADOS NO BANCO
 def insere(sql):
     with conecta() as conexao:
         with conexao.cursor() as cursor:
@@ -39,6 +40,7 @@ def insere(sql):
             print('\033[1;32mInserido com SUCESSO!!!\033[m')
 
 
+#   USADO APENAS PARA PREENCHER AS COMBOBOX
 def buscaCombobox(sql, chave):
     busca = consultaVarios(sql)
     cb = []
@@ -47,6 +49,7 @@ def buscaCombobox(sql, chave):
     return cb
 
 
+#   CONSULTA NO BANCO E RETORNA APENAS UMA OCORRÊNCIA
 def consulta(sql):
     with conecta() as conexao:
         with conexao.cursor() as cursor:
@@ -64,6 +67,7 @@ def consultaVarios(sql):
             return result
 
 
+#   LOGOUT
 def logout():
     telaLogin.tbLogin.clear()
     telaLogin.tbSenha.clear()
@@ -71,12 +75,13 @@ def logout():
     telaLogin.show()
 
 
+#   LOGIN
 def login():
     telaLogin.alertaLogin.setText('')
     usuario = telaLogin.tbLogin.text()
     senha = telaLogin.tbSenha.text()
     senha_banco = consulta(f"SELECT senha FROM funcionarios WHERE login = '{usuario}'")
-    if senha_banco == None:
+    if senha_banco is None:
         telaLogin.alertaLogin.setText('USUÁRIO INVÁLIDO')
     else:
         if senha_banco['senha'] == senha:
@@ -91,11 +96,13 @@ def voltarCad():
     telaInicial.show()
 
 
+
 def voltarCon():
     telaConsultas.close()
     telaInicial.show()
 
 
+#   TELA DE MENU INICIAL
 def menuInicial(usuario):
     nomeUsuario = consulta(f"SELECT nome FROM funcionarios WHERE login = '{usuario}'")
     telaInicial.show()
@@ -105,24 +112,30 @@ def menuInicial(usuario):
     telaInicial.btCon.clicked.connect(menuConsultas)
 
 
+#   TELA MENU DE CADASTROS
 def menuCadastros():
     telaCadastros.show()
+    telaInicial.close()
     telaCadastros.btCadUsuario.clicked.connect(cadUsuario)
     telaCadastros.btCadVeiculo.clicked.connect(chamaCadVeiculo)
     telaCadastros.btCadReserva.clicked.connect(chamaCadReserva)
     telaCadastros.btVoltar.clicked.connect(voltarCad)
 
 
+#   TELA MENU DE CONSULTAS
 def menuConsultas():
     telaConsultas.show()
+    telaInicial.close()
     telaConsultas.btConUsuario.clicked.connect(conUsuario)
     telaConsultas.btConVeiculo.clicked.connect(tConVeiculo)
     telaConsultas.btConReserva.clicked.connect(tConReserva)
     telaConsultas.btVoltar.clicked.connect(voltarCon)
 
 
+#   TELAS CADASTRO DE USUÁRIOS (FUNCIONÁRIO E CLIENTE)
 def cadUsuario():
     telaCadUsuario.show()
+    telaInicial.close()
     telaCadUsuario.btCadFuncionario.clicked.connect(telaCadUsuario.frameCadFuncionario.show)
     telaCadUsuario.btCadastrarFuncionario.clicked.connect(cadFuncionario)
     telaCadUsuario.btCadastrarCliente.clicked.connect(cadCliente)
@@ -130,23 +143,21 @@ def cadUsuario():
     telaCadUsuario.btVoltar.clicked.connect(telaCadUsuario.close)
 
 
-
+#   EFETUA O CADASTRO DO FUNCIONÁRIO
 def cadFuncionario():
     funcionario = Funcionario(telaCadUsuario.tbNomeFuncionario.text(),
                               telaCadUsuario.tbLoginFuncionario.text(),
                               telaCadUsuario.tbSenhaFuncionario.text(),
                               telaCadUsuario.tbMatriculaFuncionario.text())
-
-    #   Conecta e insere FUNCIONARIO no banco
     insere(f"INSERT INTO funcionarios VALUES (DEFAULT, '{funcionario.nome}', '{funcionario.login}', "
            f"'{funcionario.senha}', '{funcionario.matricula}')")
-
     telaCadUsuario.tbNomeFuncionario.clear()
     telaCadUsuario.tbLoginFuncionario.clear()
     telaCadUsuario.tbSenhaFuncionario.clear()
     telaCadUsuario.tbMatriculaFuncionario.clear()
 
 
+#   EFETUA O CADASTRO DO CLIENTE
 def cadCliente():
     cliente = Cliente(telaCadUsuario.tbNomeCliente.text(),
                       telaCadUsuario.tbLoginCliente.text(),
@@ -156,12 +167,9 @@ def cadCliente():
                       telaCadUsuario.tbNCartaoCliente.text(),
                       telaCadUsuario.tbTelefoneCliente.text(),
                       telaCadUsuario.tbEnderecoCliente.text())
-
-    #    Conecta e insere CLIENTE no banco
     insere(f"INSERT INTO clientes VALUES (DEFAULT, '{cliente.nome}', '{cliente.login}', '{cliente.senha}', "
            f"'{cliente.cpf}', '{cliente.cnh}', '{cliente.numero_cartao}', '{cliente.telefone}', "
            f"'{cliente.endereco}')")
-
     telaCadUsuario.tbNomeCliente.clear()
     telaCadUsuario.tbLoginCliente.clear()
     telaCadUsuario.tbSenhaCliente.clear()
@@ -172,8 +180,8 @@ def cadCliente():
     telaCadUsuario.tbEnderecoCliente.clear()
 
 
+#   ABRE A JANELA DO CADASTRO DE VEÍCULO
 def chamaCadVeiculo():
-    #   ABRE A JANELA DO CADASTRO DE VEÍCULO
     telaCadVeiculo.show()
     telaCadVeiculo.btVoltar.clicked.connect(telaCadVeiculo.close)
     telaCadVeiculo.btCadastrarCliente.clicked.connect(cadVeiculo)
@@ -182,8 +190,8 @@ def chamaCadVeiculo():
     telaCadVeiculo.cbCorVeiculo.addItems(buscaCombobox('SELECT * FROM cores', 'cor'))
 
 
+#   EFETUA O CADASTRO DO VEÍCULO
 def cadVeiculo():
-    #   LÊ OS DADOS
     veiculo = Veiculo(telaCadVeiculo.cbTipoVeiculo.currentText(),
                       telaCadVeiculo.cbMarcaVeiculo.currentText(),
                       telaCadVeiculo.cbCorVeiculo.currentText(),
@@ -195,18 +203,15 @@ def cadVeiculo():
     tipo = consulta(f"SELECT id_tipo FROM tipos WHERE tipo = '{veiculo.tipo}'")
     marca = consulta(f"SELECT id_marca FROM marcas WHERE marca = '{veiculo.marca}'")
     cor = consulta(f"SELECT id_cor FROM cores WHERE cor = '{veiculo.cor}'")
-
-    #   INSERE OS DADOS LIDOS NO BANCO
     insere(
         f"INSERT INTO veiculos VALUES (DEFAULT, '{tipo['id_tipo']}', '{marca['id_marca']}', '{cor['id_cor']}', "
         f"'{veiculo.modelo}', '{veiculo.n_chassi}', '{veiculo.ano}', '{veiculo.placa}', '{veiculo.valor_diaria}')")
-
-    #   LIMPA AS TEXTBOX
     telaCadVeiculo.tbModeloVeiculo.clear()
     telaCadVeiculo.tbAnoVeiculo.clear()
     telaCadVeiculo.tbNChassiVeiculo.clear()
     telaCadVeiculo.tbNPlacaVeiculo.clear()
     telaCadVeiculo.tbVDiariaVeiculo.clear()
+
 
 #   TELA DE CADASTRO DE RESERVA
 def chamaCadReserva():
@@ -227,12 +232,12 @@ def chamaCadReserva():
 #   CONSULTA SE CPF DO CLIENTE ESTÁ CADASTRADO
 def conCliRes():
     nomeCli = consulta(f"SELECT id_cliente, nome, cpf FROM clientes WHERE cpf = '{telaCadReserva.tbCliente.text()}'")
-    if nomeCli == None:
+    if nomeCli is None:
         telaCadReserva.labelCliente.setText('CLIENTE NÃO EXISTE!')
     else:
         telaCadReserva.labelCliente.setText(f'Cliente: {nomeCli["nome"]} CPF: {nomeCli["cpf"]}')
-    #telaCadReserva.tbCliente.clear()
     return nomeCli['id_cliente']
+
 
 #   CONSULTA DE PLACA DO VEÍCULO ESTÁ CADASTRADA
 def conVeiRes():
@@ -251,7 +256,6 @@ def conVeiRes():
                          f"WHERE m.id_marca = {modeloVei['fk_id_marca']}")
         telaCadReserva.labelVeiculo.setText(f'Veículo: {marca["marca"]} {modeloVei["modelo"]} '
                                             f'{modeloVei["ano"]}, {cor["cor"]}')
-    #telaCadReserva.tbVeiculo.clear()
     return modeloVei['id_veiculo']
 
 
@@ -284,15 +288,28 @@ def cadReserva():
            f" '{reserva.periodo}', '{reserva.valor_total}')")
 
 
+#   TELA CONSULTA DE CLIENTE
 def conUsuario():
     telaConUsuario.show()
     telaConUsuario.btConFuncionario.clicked.connect(telaConUsuario.frameConFuncionario.show)
     telaConUsuario.btConCliente.clicked.connect(telaConUsuario.frameConFuncionario.close)
     telaConUsuario.btVoltar.clicked.connect(telaConUsuario.close)
+    telaConUsuario.btExcluir.clicked.connect()
     telaConUsuario.btConsultarFuncionario.clicked.connect(conFuncionario)
     telaConUsuario.btConsultarCliente.clicked.connect(conCliente)
 
 
+def exFuncionario():
+    funcionario = consulta(f"SELECT * FROM funcionarios WHERE matricula = "
+                           f"'{telaConUsuario.tbMatricula.text()}'")
+    if funcionario is None:
+        telaConUsuario.labelNomeFunc.setText('MATRICULA NÃO CADASTRADA')
+    else:
+        insere(f"DELETE FROM funcionarios WHERE matricula = "
+               f"'{telaConUsuario.tbMatricula.text()}'")
+
+
+#   CONSULTA FUNCIONÁRIO
 def conFuncionario():
     telaConUsuario.labelNomeFunc.clear()
     telaConUsuario.labelLoginFunc.clear()
@@ -301,7 +318,6 @@ def conFuncionario():
                            f"'{telaConUsuario.tbMatricula.text()}'")
     if funcionario == None:
         telaConUsuario.labelNomeFunc.setText('MATRICULA NÃO CADASTRADA')
-
     else:
         telaConUsuario.labelNomeFunc.setText(funcionario['nome'])
         telaConUsuario.labelLoginFunc.setText(funcionario['login'])
@@ -334,6 +350,7 @@ def tConVeiculo():
     telaConVeiculo.show()
     telaConVeiculo.btVoltar.clicked.connect(telaConVeiculo.close)
     telaConVeiculo.btConsultarVeiculo.clicked.connect(conVeiculo)
+
 
 def conVeiculo():
     telaConVeiculo.labelMarcaVei.clear()
@@ -382,11 +399,11 @@ def tConReserva():
 def conReserva():
     cpfReserva = telaConReserva.tbCPFReserva.text()
     resultado = consultaVarios(f"SELECT c.nome, v.modelo, r.data_agendamento, r.data_inicio, r.periodo, r.valor_total "
-                               f"FROM reservas AS r "                               
+                               f"FROM reservas AS r "
                                f"JOIN clientes AS c "
                                f"ON c.id_cliente = r.fk_id_cliente "
                                f"JOIN veiculos AS v "
-                               f"ON v.id_veiculo = r.fk_id_veiculo "                        
+                               f"ON v.id_veiculo = r.fk_id_veiculo "
                                f"WHERE c.cpf = '{cpfReserva}'")
 
     if resultado == None or (len(resultado) == 0):
@@ -411,26 +428,7 @@ telaCadReserva = uic.loadUi("telas/telaCadReserva.ui")
 telaConVeiculo = uic.loadUi("telas/telaConsultaVeiculo.ui")
 telaConReserva = uic.loadUi("telas/telaConsultaReserva.ui")
 
-
 telaLogin.botaoLogin.clicked.connect(login)
-
 
 telaLogin.show()
 app.exec()
-
-'''         #   CONSULTA RESERVA
-            elif opcConsulta == 3:
-                print('\033[1;33mCONSULTA DE RESERVA\033[m')
-                cpf = input('Digite o CPF do cliente para consultar as reservas cadastradas: ')
-                #   ids_reservas armazena uma lista de dicionários de todos os ids correspondentes ao cpf digitado
-                ids_reservas = consulta_reserva(f"SELECT r.id_reserva FROM reservas AS r "
-                                                f"JOIN clientes AS c "
-                                                f"ON r.fk_id_cliente = c.id_cliente "
-                                                f"WHERE c.cpf = '{cpf}'")
-                for valor in ids_reservas:
-                    reserva = consulta(f"SELECT * FROM reservas WHERE id_reserva = '{valor['id_reserva']}' ")
-                    print('=*' * 20)
-                    for k, v in reserva.items():
-                        print(f'{k}: {v}')
-            else:
-                print('\033[1;31mOPÇÃO INVÁLIDA\033[m')'''
