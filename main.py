@@ -8,6 +8,7 @@ from contextlib import contextmanager
 from PyQt5 import uic, QtWidgets
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QTableWidgetItem
+from time import sleep
 
 
 def teste(teste):
@@ -94,7 +95,6 @@ def login():
 def voltarCad():
     telaCadastros.close()
     telaInicial.show()
-
 
 
 def voltarCon():
@@ -234,6 +234,8 @@ def conCliRes():
     nomeCli = consulta(f"SELECT id_cliente, nome, cpf FROM clientes WHERE cpf = '{telaCadReserva.tbCliente.text()}'")
     if nomeCli is None:
         telaCadReserva.labelCliente.setText('CLIENTE NÃO EXISTE!')
+        sleep(3)
+        telaCadReserva.labelCliente.clear()
     else:
         telaCadReserva.labelCliente.setText(f'Cliente: {nomeCli["nome"]} CPF: {nomeCli["cpf"]}')
     return nomeCli['id_cliente']
@@ -245,6 +247,8 @@ def conVeiRes():
                          f"'{telaCadReserva.tbVeiculo.text()}'")
     if modeloVei == None:
         telaCadReserva.labelVeiculo.setText('VEÌCULO NÃO EXISTE!')
+        sleep(3)
+        telaCadReserva.labelVeiculo.clear()
     else:
         cor = consulta(f"SELECT c.cor FROM cores AS c "
                        f"JOIN veiculos AS v "
@@ -309,6 +313,8 @@ def conFuncionario():
                            f"'{telaConUsuario.tbMatricula.text()}'")
     if funcionario == None:
         telaConUsuario.labelNomeFunc.setText('MATRICULA NÃO CADASTRADA')
+        sleep(3)
+        telaConUsuario.labelNomeFunc.clear()
     else:
         telaConUsuario.labelNomeFunc.setText(funcionario['nome'])
         telaConUsuario.labelLoginFunc.setText(funcionario['login'])
@@ -321,12 +327,16 @@ def exFuncionario():
                            f"'{telaConUsuario.labelMatriculaFunc.text()}'")
     if funcionario is None:
         telaConUsuario.labelNomeFunc.setText('MATRICULA NÃO CADASTRADA')
+        sleep(3)
+        telaConUsuario.labelNomeFunc.clear()
     else:
         insere(f"DELETE FROM funcionarios WHERE id_funcionario = "
                f"{funcionario['id_funcionario']}")
         telaConUsuario.labelNomeFunc.setText(f'{funcionario["nome"]} EXCLUÍDO COM SUCESSO!!')
         telaConUsuario.labelLoginFunc.clear()
         telaConUsuario.labelMatriculaFunc.clear()
+        sleep(3)
+        telaConUsuario.labelNomeFunc.clear()
 
 
 #   CONSULTAR CLIENTE
@@ -341,6 +351,8 @@ def conCliente():
                        f"'{telaConUsuario.tbCPF.text()}'")
     if cliente == None:
         telaConUsuario.labelNomeCli.setText('CPF NÃO CADASTRADO')
+        sleep(3)
+        telaConUsuario.labelNomeCli.clear()
     else:
         telaConUsuario.labelNomeCli.setText(cliente['nome'])
         telaConUsuario.labelLoginCli.setText(cliente['login'])
@@ -358,6 +370,8 @@ def exCliente():
     print(cliente)
     if cliente is None:
         telaConUsuario.labelNomeCli.setText('CPF NÃO CADASTRADO')
+        sleep(3)
+        telaConUsuario.labelNomeCli.clear()
     else:
         insere(f"DELETE FROM clientes WHERE id_cliente = "
                f"{cliente['id_cliente']}")
@@ -367,6 +381,8 @@ def exCliente():
         telaConUsuario.labelCNHCli.clear()
         telaConUsuario.labelTelefoneCli.clear()
         telaConUsuario.labelEnderecoCli.clear()
+        sleep(3)
+        telaConUsuario.labelNomeCli.clear()
 
 
 #   EXIBE A
@@ -388,8 +404,9 @@ def conVeiculo():
     telaConVeiculo.labelValorDiariaVei.clear()
 
     veiculo = consulta(f"SELECT * FROM veiculos WHERE numero_placa = '{telaConVeiculo.tbNumeroPlaca.text()}'")
-
-    if veiculo == None:
+    print(veiculo)
+    '''if veiculo == None:
+        telaConVeiculo.tbNumeroPlaca.clear()
         telaConVeiculo.labelMarcaVei.setText('PLACA NÃO CADASTRADA')
     else:
         marca = consulta(f"SELECT marca FROM marcas AS m "
@@ -412,7 +429,7 @@ def conVeiculo():
         telaConVeiculo.labelTipoVei.setText(tipo['tipo'])
         telaConVeiculo.labelPlacaVei.setText(veiculo['numero_placa'])
         telaConVeiculo.labelChassiVei.setText(veiculo['numero_chassi'])
-        telaConVeiculo.labelValorDiariaVei.setText('R$ ' + str(veiculo['valor_diaria']))
+        telaConVeiculo.labelValorDiariaVei.setText('R$ ' + str(veiculo['valor_diaria']))'''
 
 
 #   EXCLUÍR VEÍCULO
@@ -428,6 +445,8 @@ def exVeiculo():
         telaConVeiculo.labelPlacaVei.clear()
         telaConVeiculo.labelChassiVei.clear()
         telaConVeiculo.labelValorDiariaVei.clear()
+        sleep(3)
+        telaConVeiculo.labelMarcaVei.clear()
     else:
         insere(f"DELETE FROM veiculos WHERE id_veiculo = "
                f"{veiculo['id_veiculo']}")
@@ -439,6 +458,8 @@ def exVeiculo():
         telaConVeiculo.labelPlacaVei.clear()
         telaConVeiculo.labelChassiVei.clear()
         telaConVeiculo.labelValorDiariaVei.clear()
+        sleep(3)
+        telaConVeiculo.labelMarcaVei.clear()
 
 
 #   EXIBE A TELA DA CONSULTA DE RESERVA
@@ -461,6 +482,8 @@ def conReserva():
 
     if resultado == None or (len(resultado) == 0):
         telaConReserva.labelNaoCad.setText('Nenhuma Reserva Cadastrada para esse CPF')
+        sleep(3)
+        telaConReserva.labelNaoCad.clear()
     else:
         for indice, valorL in enumerate(resultado):
             telaConReserva.resultado.insertRow(indice)
