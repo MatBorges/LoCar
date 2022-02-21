@@ -8,7 +8,6 @@ from contextlib import contextmanager
 from PyQt5 import uic, QtWidgets
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QTableWidgetItem
-from time import sleep
 
 
 def teste(teste):
@@ -234,11 +233,9 @@ def conCliRes():
     nomeCli = consulta(f"SELECT id_cliente, nome, cpf FROM clientes WHERE cpf = '{telaCadReserva.tbCliente.text()}'")
     if nomeCli is None:
         telaCadReserva.labelCliente.setText('CLIENTE NÃO EXISTE!')
-        sleep(3)
-        telaCadReserva.labelCliente.clear()
     else:
         telaCadReserva.labelCliente.setText(f'Cliente: {nomeCli["nome"]} CPF: {nomeCli["cpf"]}')
-    return nomeCli['id_cliente']
+        return nomeCli['id_cliente']
 
 
 #   CONSULTA DE PLACA DO VEÍCULO ESTÁ CADASTRADA
@@ -247,8 +244,6 @@ def conVeiRes():
                          f"'{telaCadReserva.tbVeiculo.text()}'")
     if modeloVei == None:
         telaCadReserva.labelVeiculo.setText('VEÌCULO NÃO EXISTE!')
-        sleep(3)
-        telaCadReserva.labelVeiculo.clear()
     else:
         cor = consulta(f"SELECT c.cor FROM cores AS c "
                        f"JOIN veiculos AS v "
@@ -260,7 +255,7 @@ def conVeiRes():
                          f"WHERE m.id_marca = {modeloVei['fk_id_marca']}")
         telaCadReserva.labelVeiculo.setText(f'Veículo: {marca["marca"]} {modeloVei["modelo"]} '
                                             f'{modeloVei["ano"]}, {cor["cor"]}')
-    return modeloVei['id_veiculo']
+        return modeloVei['id_veiculo']
 
 
 def cadReserva():
@@ -290,6 +285,7 @@ def cadReserva():
     insere(f"INSERT INTO reservas VALUES "
            f"(DEFAULT, '{reserva.cliente}', '{reserva.veiculo}', '{reserva.data_agendamento}', '{reserva.data_inicio}',"
            f" '{reserva.periodo}', '{reserva.valor_total}')")
+    telaCadReserva.labelTotal.setText('R$ ' + str(reserva.valor_total))
 
 
 #   TELA CONSULTA DE USUÁRIO
@@ -313,13 +309,12 @@ def conFuncionario():
                            f"'{telaConUsuario.tbMatricula.text()}'")
     if funcionario == None:
         telaConUsuario.labelNomeFunc.setText('MATRICULA NÃO CADASTRADA')
-        sleep(3)
-        telaConUsuario.labelNomeFunc.clear()
     else:
         telaConUsuario.labelNomeFunc.setText(funcionario['nome'])
         telaConUsuario.labelLoginFunc.setText(funcionario['login'])
         telaConUsuario.labelMatriculaFunc.setText(funcionario['matricula'])
         telaConUsuario.tbMatricula.clear()
+    funcionario = ''
 
 #   EXCLUI FUNCIONÁRIO
 def exFuncionario():
@@ -327,16 +322,12 @@ def exFuncionario():
                            f"'{telaConUsuario.labelMatriculaFunc.text()}'")
     if funcionario is None:
         telaConUsuario.labelNomeFunc.setText('MATRICULA NÃO CADASTRADA')
-        sleep(3)
-        telaConUsuario.labelNomeFunc.clear()
     else:
         insere(f"DELETE FROM funcionarios WHERE id_funcionario = "
                f"{funcionario['id_funcionario']}")
         telaConUsuario.labelNomeFunc.setText(f'{funcionario["nome"]} EXCLUÍDO COM SUCESSO!!')
         telaConUsuario.labelLoginFunc.clear()
         telaConUsuario.labelMatriculaFunc.clear()
-        sleep(3)
-        telaConUsuario.labelNomeFunc.clear()
 
 
 #   CONSULTAR CLIENTE
@@ -351,8 +342,6 @@ def conCliente():
                        f"'{telaConUsuario.tbCPF.text()}'")
     if cliente == None:
         telaConUsuario.labelNomeCli.setText('CPF NÃO CADASTRADO')
-        sleep(3)
-        telaConUsuario.labelNomeCli.clear()
     else:
         telaConUsuario.labelNomeCli.setText(cliente['nome'])
         telaConUsuario.labelLoginCli.setText(cliente['login'])
@@ -361,6 +350,7 @@ def conCliente():
         telaConUsuario.labelTelefoneCli.setText(cliente['telefone'])
         telaConUsuario.labelEnderecoCli.setText(cliente['endereco'])
         telaConUsuario.tbCPF.clear()
+    cliente = ''
 
 
 #   EXCLUIR CLIENTE
@@ -370,8 +360,6 @@ def exCliente():
     print(cliente)
     if cliente is None:
         telaConUsuario.labelNomeCli.setText('CPF NÃO CADASTRADO')
-        sleep(3)
-        telaConUsuario.labelNomeCli.clear()
     else:
         insere(f"DELETE FROM clientes WHERE id_cliente = "
                f"{cliente['id_cliente']}")
@@ -381,8 +369,6 @@ def exCliente():
         telaConUsuario.labelCNHCli.clear()
         telaConUsuario.labelTelefoneCli.clear()
         telaConUsuario.labelEnderecoCli.clear()
-        sleep(3)
-        telaConUsuario.labelNomeCli.clear()
 
 
 #   EXIBE A
@@ -405,7 +391,7 @@ def conVeiculo():
 
     veiculo = consulta(f"SELECT * FROM veiculos WHERE numero_placa = '{telaConVeiculo.tbNumeroPlaca.text()}'")
     print(veiculo)
-    '''if veiculo == None:
+    if veiculo == None:
         telaConVeiculo.tbNumeroPlaca.clear()
         telaConVeiculo.labelMarcaVei.setText('PLACA NÃO CADASTRADA')
     else:
@@ -429,7 +415,8 @@ def conVeiculo():
         telaConVeiculo.labelTipoVei.setText(tipo['tipo'])
         telaConVeiculo.labelPlacaVei.setText(veiculo['numero_placa'])
         telaConVeiculo.labelChassiVei.setText(veiculo['numero_chassi'])
-        telaConVeiculo.labelValorDiariaVei.setText('R$ ' + str(veiculo['valor_diaria']))'''
+        telaConVeiculo.labelValorDiariaVei.setText('R$ ' + str(veiculo['valor_diaria']))
+    veiculo = ''
 
 
 #   EXCLUÍR VEÍCULO
@@ -445,8 +432,6 @@ def exVeiculo():
         telaConVeiculo.labelPlacaVei.clear()
         telaConVeiculo.labelChassiVei.clear()
         telaConVeiculo.labelValorDiariaVei.clear()
-        sleep(3)
-        telaConVeiculo.labelMarcaVei.clear()
     else:
         insere(f"DELETE FROM veiculos WHERE id_veiculo = "
                f"{veiculo['id_veiculo']}")
@@ -458,8 +443,6 @@ def exVeiculo():
         telaConVeiculo.labelPlacaVei.clear()
         telaConVeiculo.labelChassiVei.clear()
         telaConVeiculo.labelValorDiariaVei.clear()
-        sleep(3)
-        telaConVeiculo.labelMarcaVei.clear()
 
 
 #   EXIBE A TELA DA CONSULTA DE RESERVA
@@ -482,14 +465,13 @@ def conReserva():
 
     if resultado == None or (len(resultado) == 0):
         telaConReserva.labelNaoCad.setText('Nenhuma Reserva Cadastrada para esse CPF')
-        sleep(3)
-        telaConReserva.labelNaoCad.clear()
     else:
         for indice, valorL in enumerate(resultado):
             telaConReserva.resultado.insertRow(indice)
             for iDic, valorD in enumerate(valorL.items()):
                 telaConReserva.resultado.setItem(indice, iDic, QTableWidgetItem(str(valorD[1])))
     telaConReserva.tbCPFReserva.clear()
+    resultado = ''
 
 
 app = QtWidgets.QApplication([])

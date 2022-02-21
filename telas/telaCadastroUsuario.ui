@@ -795,7 +795,7 @@ border-color: black;</string>
       </font>
      </property>
      <property name="text">
-      <string>nº Cartão</string>
+      <string>Telefone</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
