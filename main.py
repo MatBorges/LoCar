@@ -288,25 +288,16 @@ def cadReserva():
            f" '{reserva.periodo}', '{reserva.valor_total}')")
 
 
-#   TELA CONSULTA DE CLIENTE
+#   TELA CONSULTA DE USUÁRIO
 def conUsuario():
     telaConUsuario.show()
     telaConUsuario.btConFuncionario.clicked.connect(telaConUsuario.frameConFuncionario.show)
     telaConUsuario.btConCliente.clicked.connect(telaConUsuario.frameConFuncionario.close)
     telaConUsuario.btVoltar.clicked.connect(telaConUsuario.close)
-    telaConUsuario.btExcluir.clicked.connect()
+    telaConUsuario.btExcluirFuncionario.clicked.connect(exFuncionario)
+    telaConUsuario.btExcluirCliente.clicked.connect(exCliente)
     telaConUsuario.btConsultarFuncionario.clicked.connect(conFuncionario)
     telaConUsuario.btConsultarCliente.clicked.connect(conCliente)
-
-
-def exFuncionario():
-    funcionario = consulta(f"SELECT * FROM funcionarios WHERE matricula = "
-                           f"'{telaConUsuario.tbMatricula.text()}'")
-    if funcionario is None:
-        telaConUsuario.labelNomeFunc.setText('MATRICULA NÃO CADASTRADA')
-    else:
-        insere(f"DELETE FROM funcionarios WHERE matricula = "
-               f"'{telaConUsuario.tbMatricula.text()}'")
 
 
 #   CONSULTA FUNCIONÁRIO
@@ -324,7 +315,21 @@ def conFuncionario():
         telaConUsuario.labelMatriculaFunc.setText(funcionario['matricula'])
         telaConUsuario.tbMatricula.clear()
 
+#   EXCLUI FUNCIONÁRIO
+def exFuncionario():
+    funcionario = consulta(f"SELECT * FROM funcionarios WHERE matricula = "
+                           f"'{telaConUsuario.labelMatriculaFunc.text()}'")
+    if funcionario is None:
+        telaConUsuario.labelNomeFunc.setText('MATRICULA NÃO CADASTRADA')
+    else:
+        insere(f"DELETE FROM funcionarios WHERE id_funcionario = "
+               f"{funcionario['id_funcionario']}")
+        telaConUsuario.labelNomeFunc.setText(f'{funcionario["nome"]} EXCLUÍDO COM SUCESSO!!')
+        telaConUsuario.labelLoginFunc.clear()
+        telaConUsuario.labelMatriculaFunc.clear()
 
+
+#   CONSULTAR CLIENTE
 def conCliente():
     telaConUsuario.labelNomeCli.clear()
     telaConUsuario.labelLoginCli.clear()
@@ -346,6 +351,25 @@ def conCliente():
         telaConUsuario.tbCPF.clear()
 
 
+#   EXCLUIR CLIENTE
+def exCliente():
+    cliente = consulta(f"SELECT * FROM clientes WHERE cpf = "
+                       f"'{telaConUsuario.labelCPFCli.text()}'")
+    print(cliente)
+    if cliente is None:
+        telaConUsuario.labelNomeCli.setText('CPF NÃO CADASTRADO')
+    else:
+        insere(f"DELETE FROM clientes WHERE id_cliente = "
+               f"{cliente['id_cliente']}")
+        telaConUsuario.labelNomeCli.setText(f"{cliente['nome']} EXCLUÍDO COM SUCESSO!!")
+        telaConUsuario.labelLoginCli.clear()
+        telaConUsuario.labelCPFCli.clear()
+        telaConUsuario.labelCNHCli.clear()
+        telaConUsuario.labelTelefoneCli.clear()
+        telaConUsuario.labelEnderecoCli.clear()
+
+
+#   EXIBE A
 def tConVeiculo():
     telaConVeiculo.show()
     telaConVeiculo.btVoltar.clicked.connect(telaConVeiculo.close)
@@ -424,7 +448,7 @@ telaConsultas = uic.loadUi("telas/telaConsultas.ui")
 telaCadUsuario = uic.loadUi("telas/telaCadastroUsuario.ui")
 telaConUsuario = uic.loadUi("telas/telaConsultaUsuario.ui")
 telaCadVeiculo = uic.loadUi("telas/telaCadastroVeiculo.ui")
-telaCadReserva = uic.loadUi("telas/telaCadReserva.ui")
+telaCadReserva = uic.loadUi("telas/telaCadastroReserva.ui")
 telaConVeiculo = uic.loadUi("telas/telaConsultaVeiculo.ui")
 telaConReserva = uic.loadUi("telas/telaConsultaReserva.ui")
 
