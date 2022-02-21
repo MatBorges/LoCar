@@ -530,7 +530,7 @@ border-color: black;</string>
       <string/>
      </property>
     </widget>
-    <widget class="QPushButton" name="btExcluir">
+    <widget class="QPushButton" name="btExcluirVeiculo">
      <property name="geometry">
       <rect>
        <x>510</x>

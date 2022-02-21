@@ -374,6 +374,7 @@ def tConVeiculo():
     telaConVeiculo.show()
     telaConVeiculo.btVoltar.clicked.connect(telaConVeiculo.close)
     telaConVeiculo.btConsultarVeiculo.clicked.connect(conVeiculo)
+    telaConVeiculo.btExcluirVeiculo.clicked.connect(exVeiculo)
 
 
 def conVeiculo():
@@ -394,16 +395,16 @@ def conVeiculo():
         marca = consulta(f"SELECT marca FROM marcas AS m "
                          f"JOIN veiculos AS v "
                          f"ON v.fk_id_marca = m.id_marca "
-                         f"WHERE v.numero_placa = {veiculo['numero_placa']}")
+                         f"WHERE v.numero_placa = \'{veiculo['numero_placa']}\'")
         cor = consulta(f"SELECT cor FROM cores AS c "
                        f"JOIN veiculos AS v "
                        f"ON v.fk_id_cor = c.id_cor "
-                       f"WHERE v.numero_placa = {veiculo['numero_placa']}")
+                       f"WHERE v.numero_placa = \'{veiculo['numero_placa']}\'")
         tipo = consulta(f"SELECT tipo FROM tipos AS t "
                         f"JOIN veiculos AS v "
                         f"ON v.fk_id_tipo = t.id_tipo "
-                        f"WHERE v.numero_placa = {veiculo['numero_placa']}")
-
+                        f"WHERE v.numero_placa = \'{veiculo['numero_placa']}\'")
+        telaConVeiculo.tbNumeroPlaca.clear()
         telaConVeiculo.labelMarcaVei.setText(marca['marca'])
         telaConVeiculo.labelModeloVei.setText(veiculo['modelo'])
         telaConVeiculo.labelAnoVei.setText(veiculo['ano'])
@@ -414,12 +415,40 @@ def conVeiculo():
         telaConVeiculo.labelValorDiariaVei.setText('R$ ' + str(veiculo['valor_diaria']))
 
 
+#   EXCLUÍR VEÍCULO
+def exVeiculo():
+    veiculo = consulta(f"SELECT * FROM veiculos WHERE numero_placa = "
+                       f"'{telaConVeiculo.labelPlacaVei.text()}'")
+    if veiculo is None:
+        telaConVeiculo.labelMarcaVei.setText('PLACA NÃO CADASTRADA')
+        telaConVeiculo.labelModeloVei.clear()
+        telaConVeiculo.labelAnoVei.clear()
+        telaConVeiculo.labelCorVei.clear()
+        telaConVeiculo.labelTipoVei.clear()
+        telaConVeiculo.labelPlacaVei.clear()
+        telaConVeiculo.labelChassiVei.clear()
+        telaConVeiculo.labelValorDiariaVei.clear()
+    else:
+        insere(f"DELETE FROM veiculos WHERE id_veiculo = "
+               f"{veiculo['id_veiculo']}")
+        telaConVeiculo.labelMarcaVei.setText(f'{veiculo["modelo"]} EXCLUÍDO COM SUCESSO!!')
+        telaConVeiculo.labelModeloVei.clear()
+        telaConVeiculo.labelAnoVei.clear()
+        telaConVeiculo.labelCorVei.clear()
+        telaConVeiculo.labelTipoVei.clear()
+        telaConVeiculo.labelPlacaVei.clear()
+        telaConVeiculo.labelChassiVei.clear()
+        telaConVeiculo.labelValorDiariaVei.clear()
+
+
+#   EXIBE A TELA DA CONSULTA DE RESERVA
 def tConReserva():
     telaConReserva.show()
     telaConReserva.btVoltar.clicked.connect(telaConReserva.close)
     telaConReserva.btConsultaReserva.clicked.connect(conReserva)
 
 
+#   CONSULTA A RESERVA
 def conReserva():
     cpfReserva = telaConReserva.tbCPFReserva.text()
     resultado = consultaVarios(f"SELECT c.nome, v.modelo, r.data_agendamento, r.data_inicio, r.periodo, r.valor_total "
